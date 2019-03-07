@@ -1,4 +1,4 @@
-import renderBoolean from '../../../../src/renderers/contentful/fields/renderBoolean'
+import renderBoolean from '../renderBoolean'
 import { Field } from 'contentful'
 
 describe('renderSymbol()', () => {

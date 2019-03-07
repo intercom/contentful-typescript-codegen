@@ -1,4 +1,4 @@
-import renderSymbol from '../../../../src/renderers/contentful/fields/renderSymbol'
+import renderSymbol from '../renderSymbol'
 import { Field } from 'contentful'
 
 describe('renderSymbol()', () => {
