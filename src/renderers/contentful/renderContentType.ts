@@ -22,20 +22,18 @@ export default function renderContentType(contentType: ContentType) {
 function renderContentTypeFields(fields: Field[]): string {
   return fields
     .map<string>(field => {
-      const renderEmpty = (field: Field) => ''
-
       const functionMap: Record<FieldType, (field: Field) => string> = {
-        Array: renderEmpty,
+        Array: undefined,
         Boolean: renderBoolean,
         Date: renderDate,
         Integer: renderInteger,
-        Link: renderEmpty,
+        Link: undefined,
         Location: renderLocation,
         Number: renderNumber,
-        Object: renderEmpty,
-        RichText: renderEmpty,
+        Object: undefined,
+        RichText: undefined,
         Symbol: renderSymbol,
-        Text: renderEmpty
+        Text: undefined
       }
 
       return functionMap[field.type](field)
