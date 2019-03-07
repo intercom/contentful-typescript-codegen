@@ -4,10 +4,10 @@ export default function renderUnion(name: string, values: string[]): string {
   `
 }
 
-function renderUnionValues(values: string[]): string {
+export function renderUnionValues(values: string[]): string {
   if (values.length === 0) {
     return ' never'
   } else {
-    return '\n' + values.map(value => `  | '${value}'`).join('\n')
+    return values.map(value => `'${value}'`).join(' | ')
   }
 }
