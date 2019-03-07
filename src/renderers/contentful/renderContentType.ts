@@ -1,18 +1,18 @@
-import { ContentType, Field, FieldType } from 'contentful'
-import { upperFirst, camelCase } from 'lodash'
+import { ContentType, Field, FieldType } from "contentful"
+import { upperFirst, camelCase } from "lodash"
 
-import renderInterface from '../typescript/renderInterface'
+import renderInterface from "../typescript/renderInterface"
 
-import renderBoolean from './fields/renderBoolean'
-import renderDate from './fields/renderDate'
-import renderInteger from './fields/renderInteger'
-import renderLocation from './fields/renderLocation'
-import renderNumber from './fields/renderNumber'
-import renderSymbol from './fields/renderSymbol'
+import renderBoolean from "./fields/renderBoolean"
+import renderDate from "./fields/renderDate"
+import renderInteger from "./fields/renderInteger"
+import renderLocation from "./fields/renderLocation"
+import renderNumber from "./fields/renderNumber"
+import renderSymbol from "./fields/renderSymbol"
 
 export default function renderContentType(contentType: ContentType) {
   const id = contentType.sys.id
-  const idAsInterfaceName = 'I' + upperFirst(camelCase(id))
+  const idAsInterfaceName = "I" + upperFirst(camelCase(id))
 
   const renderedFields = renderContentTypeFields(contentType.fields)
 
@@ -33,10 +33,10 @@ function renderContentTypeFields(fields: Field[]): string {
         Object: undefined,
         RichText: undefined,
         Symbol: renderSymbol,
-        Text: undefined
+        Text: undefined,
       }
 
       return functionMap[field.type](field)
     })
-    .join('\n\n')
+    .join("\n\n")
 }

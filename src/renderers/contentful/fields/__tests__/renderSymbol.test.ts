@@ -1,40 +1,40 @@
-import renderSymbol from '../renderSymbol'
-import { Field } from 'contentful'
+import renderSymbol from "../renderSymbol"
+import { Field } from "contentful"
 
-describe('renderSymbol()', () => {
+describe("renderSymbol()", () => {
   const simpleString: Field = {
-    type: 'Symbol',
+    type: "Symbol",
     validations: [],
-    id: 'fieldId',
-    name: 'Field Name',
+    id: "fieldId",
+    name: "Field Name",
     omitted: false,
     required: true,
     disabled: false,
     linkType: undefined,
-    localized: false
+    localized: false,
   }
 
   const stringWithValidations: Field = {
-    type: 'Symbol',
-    validations: [{ in: ['one', 'or', 'the', 'other'] }],
-    id: 'fieldId',
-    name: 'Field Name',
+    type: "Symbol",
+    validations: [{ in: ["one", "or", "the", "other"] }],
+    id: "fieldId",
+    name: "Field Name",
     omitted: false,
     required: true,
     disabled: false,
     linkType: undefined,
-    localized: false
+    localized: false,
   }
 
-  it('works with simple strings', () => {
+  it("works with simple strings", () => {
     expect(renderSymbol(simpleString).trim()).toMatchInlineSnapshot(
-      `"/** Field Name */ fieldId: string;"`
+      `"/** Field Name */ fieldId: string;"`,
     )
   })
 
-  it('works with strings with validations', () => {
+  it("works with strings with validations", () => {
     expect(renderSymbol(stringWithValidations).trim()).toMatchInlineSnapshot(
-      `"/** Field Name */ fieldId: 'one' | 'or' | 'the' | 'other';"`
+      `"/** Field Name */ fieldId: 'one' | 'or' | 'the' | 'other';"`,
     )
   })
 })

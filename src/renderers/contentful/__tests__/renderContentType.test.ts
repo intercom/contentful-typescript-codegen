@@ -1,30 +1,30 @@
-import renderContentType from '../renderContentType'
-import { ContentType, Sys } from 'contentful'
+import renderContentType from "../renderContentType"
+import { ContentType, Sys } from "contentful"
 
-describe('renderSymbol()', () => {
+describe("renderSymbol()", () => {
   const contentType: ContentType = {
     sys: {
-      id: 'myContentType'
+      id: "myContentType",
     } as Sys,
     fields: [
       {
-        id: 'field1',
-        name: 'Field One™',
+        id: "field1",
+        name: "Field One™",
         required: false,
         validations: [],
         disabled: false,
         omitted: false,
         localized: false,
-        type: 'Symbol'
-      }
+        type: "Symbol",
+      },
     ],
-    description: '',
-    displayField: '',
-    name: '',
-    toPlainObject: () => ({} as ContentType)
+    description: "",
+    displayField: "",
+    name: "",
+    toPlainObject: () => ({} as ContentType),
   }
 
-  it('works with a simple content type', () => {
+  it("works with a simple content type", () => {
     expect(renderContentType(contentType).trim()).toMatchInlineSnapshot(`
 "interface IMyContentType extends Entry<{
       /** Field One™ */ field1: string | null;
