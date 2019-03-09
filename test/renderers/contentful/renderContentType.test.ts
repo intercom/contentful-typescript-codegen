@@ -1,5 +1,6 @@
 import renderContentType from "../../../src/renderers/contentful/renderContentType"
-import { ContentType, Sys, FieldItem, Entry } from "contentful"
+import { ContentType, Sys, FieldItem } from "contentful"
+import format from "../../support/format"
 
 describe("renderSymbol()", () => {
   const contentType: ContentType = {
@@ -43,16 +44,17 @@ describe("renderSymbol()", () => {
   }
 
   it("works with miscellaneous field types", () => {
-    expect(renderContentType(contentType).trim()).toMatchInlineSnapshot(`
+    expect(format(renderContentType(contentType))).toMatchInlineSnapshot(`
 "interface IMyContentTypeFields {
-      /** Symbol Field™ */
- symbolField: string | null;
+  /** Symbol Field™ */
+  symbolField: string | null;
 
-/** Array field */
- arrayField: ('one' | 'of' | 'the' | 'above')[];
-    };
+  /** Array field */
+  arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
+}
 
-    export interface IMyContentType extends Entry<IMyContentTypeFields> {};"
+export interface IMyContentType extends Entry<IMyContentTypeFields> {}
+"
 `)
   })
 })
