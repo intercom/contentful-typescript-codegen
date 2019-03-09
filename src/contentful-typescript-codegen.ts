@@ -5,24 +5,21 @@ import renderContentType from "./renderers/contentful/renderContentType"
 import renderUnion from "./renderers/typescript/renderUnion"
 
 export async function generateTypes(contentTypes: ContentType[]) {
-  let source = ""
-
   const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
 
-  source += renderContentfulImports()
-  source += "\n"
+  return [
+    renderContentfulImports(),
+    renderAllContentTypes(sortedContentTypes),
+    renderAllContentTypeIds(sortedContentTypes),
+  ].join("\n\n")
+}
 
-  sortedContentTypes.forEach(contentType => {
-    source += renderContentType(contentType)
-    source += "\n"
-  })
+function renderAllContentTypes(contentTypes: ContentType[]): string {
+  return contentTypes.map(contentType => renderContentType(contentType)).join("\n\n")
+}
 
-  source += renderUnion(
-    "CONTENT_TYPE",
-    sortedContentTypes.map(contentType => `'${contentType.sys.id}'`),
-  )
-
-  return source
+function renderAllContentTypeIds(contentTypes: ContentType[]): string {
+  return renderUnion("CONTENT_TYPE", contentTypes.map(contentType => `'${contentType.sys.id}'`))
 }
 
 const contentTypes = [
