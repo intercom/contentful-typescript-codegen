@@ -1,28 +1,51 @@
-import { ContentType } from "contentful"
+import render from "./renderers/render"
+import { ContentTypeCollection, Space } from "contentful"
+import path from "path"
+import { outputFileSync } from "fs-extra"
 
-import { format, resolveConfig } from "prettier"
+const meow = require("meow")
 
-import renderContentfulImports from "./renderers/contentful/renderContentfulImports"
-import renderContentType from "./renderers/contentful/renderContentType"
-import renderUnion from "./renderers/typescript/renderUnion"
+const cli = meow(
+  `
+	Usage
+	  $ contentful-typescript-codegen --output <file> <options>
 
-export async function generateTypes(contentTypes: ContentType[]) {
-  const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
+	Options
+	  --output, -o  Where to write to
+	  --watch,  -w  Continuously output
 
-  const source = [
-    renderContentfulImports(),
-    renderAllContentTypes(sortedContentTypes),
-    renderAllContentTypeIds(sortedContentTypes),
-  ].join("\n\n")
+	Examples
+	  $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts
+`,
+  {
+    flags: {
+      output: {
+        type: "string",
+        alias: "o",
+        required: true,
+      },
+      watch: {
+        type: "boolean",
+        alias: "w",
+        required: false,
+      },
+    },
+  },
+)
 
-  const prettierConfig = await resolveConfig(process.cwd())
-  return format(source, { ...prettierConfig, parser: "typescript" })
+async function runCodegen(outputFile: string) {
+  const getSpacePath = path.resolve(process.cwd(), "./getContentfulSpace.js")
+  const getSpace = require(getSpacePath)
+  const space = (await getSpace()) as any
+  const contentTypes = await space.getContentTypes()
+  const output = await render(contentTypes.items)
+
+  const outputPath = path.resolve(process.cwd(), outputFile)
+  outputFileSync(outputPath, output)
 }
 
-function renderAllContentTypes(contentTypes: ContentType[]): string {
-  return contentTypes.map(contentType => renderContentType(contentType)).join("\n\n")
-}
+runCodegen(cli.flags.output)
 
-function renderAllContentTypeIds(contentTypes: ContentType[]): string {
-  return renderUnion("CONTENT_TYPE", contentTypes.map(contentType => `'${contentType.sys.id}'`))
+if (cli.flags.watch) {
+  setInterval(() => runCodegen(cli.flags.output), 5000)
 }

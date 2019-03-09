@@ -10,11 +10,8 @@ const libraryName = "contentful-typescript-codegen"
 
 export default {
   input: `src/${libraryName}.ts`,
-  output: [
-    { file: pkg.main, format: "cjs", sourcemap: true },
-    { file: pkg.module, format: "es", sourcemap: true },
-  ],
-  external: ["prettier", "lodash"],
+  output: [{ file: pkg.main, format: "cjs", sourcemap: true }],
+  external: ["prettier", "lodash", "path", "fs", "fs-extra", "meow"],
   watch: {
     include: "src/**",
   },
