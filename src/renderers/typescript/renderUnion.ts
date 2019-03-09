@@ -6,8 +6,8 @@ export default function renderUnion(name: string, values: string[]): string {
 
 export function renderUnionValues(values: string[]): string {
   if (values.length === 0) {
-    return " never"
+    return "never"
   } else {
-    return values.map(value => `'${value}'`).join(" | ")
+    return values.join(" | ")
   }
 }

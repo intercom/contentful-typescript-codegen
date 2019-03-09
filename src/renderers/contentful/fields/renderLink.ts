@@ -1,5 +1,6 @@
 import { Field } from "contentful"
 import { renderContentTypeId } from "../renderContentType"
+import { renderUnionValues } from "../../typescript/renderUnion"
 
 export default function renderLink(field: Field): string {
   if (field.linkType === "Asset") {
@@ -11,7 +12,7 @@ export default function renderLink(field: Field): string {
     const contentTypeValidation = validations.find(validation => !!validation.linkContentType)
 
     if (contentTypeValidation && contentTypeValidation.linkContentType) {
-      return contentTypeValidation.linkContentType.map(renderContentTypeId).join(" | ")
+      return renderUnionValues(contentTypeValidation.linkContentType.map(renderContentTypeId))
     } else {
       return "Entry<unknown>"
     }
