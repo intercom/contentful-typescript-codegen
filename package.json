@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "keywords": [],
-  "main": "dist/contentful-typescript-codegen.umd.js",
+  "main": "dist/contentful-typescript-codegen.cjs.js",
   "module": "dist/contentful-typescript-codegen.es5.js",
   "typings": "dist/types/contentful-typescript-codegen.d.ts",
   "files": [
