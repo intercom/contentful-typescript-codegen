@@ -1,9 +1,25 @@
-export default function renderInterface(name: string, fields: string): string {
+export default function renderInterface(
+  name: string,
+  fields: string,
+  description?: string,
+): string {
   return `
     interface ${name}Fields {
       ${fields}
     };
 
+    ${descriptionComment(description)}
     export interface ${name} extends Entry<${name}Fields> {};
   `
+}
+
+function descriptionComment(description: string | undefined) {
+  if (description) {
+    return `
+      /**
+       * ${description}
+       */`
+  }
+
+  return ""
 }

@@ -20,6 +20,7 @@ export default function renderContentType(contentType: ContentType) {
   return renderInterface(
     renderContentTypeId(contentType.sys.id),
     renderContentTypeFields(contentType.fields),
+    contentType.description,
   )
 }
 
