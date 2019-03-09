@@ -10,7 +10,7 @@ export default function renderArray(field: Field): string {
   const fieldWithValidations: Field = {
     ...field,
     linkType: fieldItems.linkType,
-    validations: fieldItems.validations || [],
+    validations: fieldItems.validations,
   }
 
   switch (fieldItems.type) {

@@ -6,15 +6,12 @@ import renderContentTypeId from "./renderContentTypeId"
 
 import renderArray from "./fields/renderArray"
 import renderBoolean from "./fields/renderBoolean"
-import renderDate from "./fields/renderDate"
-import renderInteger from "./fields/renderInteger"
 import renderLink from "./fields/renderLink"
 import renderLocation from "./fields/renderLocation"
 import renderNumber from "./fields/renderNumber"
 import renderObject from "./fields/renderObject"
 import renderRichText from "./fields/renderRichText"
 import renderSymbol from "./fields/renderSymbol"
-import renderText from "./fields/renderText"
 
 export default function renderContentType(contentType: ContentType) {
   return renderInterface(
@@ -30,15 +27,15 @@ function renderContentTypeFields(fields: Field[]): string {
       const functionMap: Record<FieldType, (field: Field) => string> = {
         Array: renderArray,
         Boolean: renderBoolean,
-        Date: renderDate,
-        Integer: renderInteger,
+        Date: renderSymbol,
+        Integer: renderNumber,
         Link: renderLink,
         Location: renderLocation,
         Number: renderNumber,
         Object: renderObject,
         RichText: renderRichText,
         Symbol: renderSymbol,
-        Text: renderText,
+        Text: renderSymbol,
       }
 
       return renderField(field, functionMap[field.type](field))

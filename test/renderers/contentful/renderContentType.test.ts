@@ -53,8 +53,7 @@ describe("renderSymbol()", () => {
   arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
 }
 
-export interface IMyContentType extends Entry<IMyContentTypeFields> {}
-"
+export interface IMyContentType extends Entry<IMyContentTypeFields> {}"
 `)
   })
 })
