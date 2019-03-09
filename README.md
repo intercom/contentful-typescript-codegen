@@ -1,8 +1,15 @@
 # contentful-typescript-codegen
 
-Generates typings from your Contentful environment. It will take your Content Types and Locales and
-turns them into handy TypeScript interfaces, and formats the output using your Prettier config (if
-applicable).
+Generate typings from your Contentful environment.
+
+- Content Types become interfaces.
+- Assets and Rich Text are resolved to rich types.
+- Locales (and your default locale) are strings.
+
+At Intercom, we use this in our [marketing site] to increase developer confidence and productivity,
+ensure that breaking changes to our Content Types don't cause an outage, and because it's neat.
+
+[marketing site]: https://www.intercom.com
 
 ## Usage
 
