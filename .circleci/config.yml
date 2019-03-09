@@ -25,3 +25,10 @@ jobs:
           key: v1-dependencies-{{arch}}-{{ checksum "package.json" }}
           paths:
             - node_modules
+
+workflows:
+  version: 2
+
+  test:
+    jobs:
+      - test
