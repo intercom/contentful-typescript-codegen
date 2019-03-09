@@ -2,6 +2,7 @@ import { ContentType, Field, FieldType } from "contentful"
 import { upperFirst, camelCase } from "lodash"
 
 import renderInterface from "../typescript/renderInterface"
+import renderField from "./renderField"
 
 import renderArray from "./fields/renderArray"
 import renderBoolean from "./fields/renderBoolean"
@@ -14,7 +15,6 @@ import renderObject from "./fields/renderObject"
 import renderRichText from "./fields/renderRichText"
 import renderSymbol from "./fields/renderSymbol"
 import renderText from "./fields/renderText"
-import renderField from "./renderField"
 
 export default function renderContentType(contentType: ContentType) {
   return renderInterface(
