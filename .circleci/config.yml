@@ -17,14 +17,15 @@ jobs:
             - v1-dependencies-{{arch}}-
 
       - run: yarn install
-      - run:
-          name: Run tests
-          command: yarn test --ci
 
       - save_cache:
           key: v1-dependencies-{{arch}}-{{ checksum "package.json" }}
           paths:
             - node_modules
+
+      - run:
+          name: Run tests
+          command: yarn test --ci
 
 workflows:
   version: 2
