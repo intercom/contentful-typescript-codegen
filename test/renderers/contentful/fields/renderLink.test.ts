@@ -49,4 +49,20 @@ describe("renderLink()", () => {
 
     expect(renderLink(assetLink)).toMatchInlineSnapshot(`"Asset"`)
   })
+
+  it("handles mysteries", () => {
+    const mysteryLink: Field = {
+      id: "mysteryLink",
+      name: "Mystery Link",
+      type: "Link",
+      linkType: "Idk",
+      localized: false,
+      required: true,
+      validations: [],
+      disabled: false,
+      omitted: false,
+    }
+
+    expect(renderLink(mysteryLink)).toMatchInlineSnapshot(`"unknown"`)
+  })
 })

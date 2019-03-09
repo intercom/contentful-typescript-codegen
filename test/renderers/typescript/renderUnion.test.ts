@@ -13,4 +13,8 @@ describe("renderUnionValues()", () => {
   it("renders a union", () => {
     expect(renderUnionValues(["1", "2", "3"])).toMatchInlineSnapshot(`"1 | 2 | 3"`)
   })
+
+  it("handles empty unions", () => {
+    expect(renderUnionValues([])).toMatchInlineSnapshot(`"never"`)
+  })
 })

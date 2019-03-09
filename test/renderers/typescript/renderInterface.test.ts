@@ -11,4 +11,18 @@ describe("renderInterface()", () => {
 export interface IFoo extends Entry<IFooFields> {}"
 `)
   })
+
+  it("adds comments to interfaces", () => {
+    expect(format(renderInterface("IFoo", "field: string", "Example interface")))
+      .toMatchInlineSnapshot(`
+"interface IFooFields {
+  field: string;
+}
+
+/**
+ * Example interface
+ */
+export interface IFoo extends Entry<IFooFields> {}"
+`)
+  })
 })
