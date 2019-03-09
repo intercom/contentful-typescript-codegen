@@ -1,5 +1,4 @@
 import render from "./renderers/render"
-import { ContentTypeCollection, Space } from "contentful"
 import path from "path"
 import { outputFileSync } from "fs-extra"
 
