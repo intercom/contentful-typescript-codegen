@@ -1,14 +1,26 @@
 import { ContentType } from "contentful"
+
+import renderContentfulImports from "./renderers/contentful/renderContentfulImports"
 import renderContentType from "./renderers/contentful/renderContentType"
+import renderUnion from "./renderers/typescript/renderUnion"
 
 export async function generateTypes(contentTypes: ContentType[]) {
   let source = ""
 
-  contentTypes
-    .sort((a, b) => a.sys.id.localeCompare(b.sys.id))
-    .forEach(contentType => {
-      source += renderContentType(contentType)
-    })
+  const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
+
+  source += renderContentfulImports()
+  source += "\n"
+
+  sortedContentTypes.forEach(contentType => {
+    source += renderContentType(contentType)
+    source += "\n"
+  })
+
+  source += renderUnion(
+    "CONTENT_TYPE",
+    sortedContentTypes.map(contentType => `'${contentType.sys.id}'`),
+  )
 
   return source
 }
@@ -20,22 +32,16 @@ const contentTypes = [
       id: "largeTestimonial",
       type: "ContentType",
       createdAt: "2019-02-20T01:04:37.642Z",
-      updatedAt: "2019-02-20T19:04:42.807Z",
+      updatedAt: "2019-03-09T07:09:41.436Z",
       environment: { sys: { id: "master", type: "Link", linkType: "Environment" } },
-      publishedVersion: 7,
-      publishedAt: "2019-02-20T19:04:42.807Z",
+      publishedVersion: 15,
+      publishedAt: "2019-03-09T07:09:41.436Z",
       firstPublishedAt: "2019-02-20T01:04:38.034Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
-      publishedCounter: 4,
-      version: 8,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      publishedCounter: 8,
+      version: 16,
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "companyName",
     name: "Large Testimonial",
@@ -139,17 +145,6 @@ const contentTypes = [
         linkType: "Asset",
       },
       {
-        id: "cta",
-        name: "CTA",
-        type: "Link",
-        localized: false,
-        required: false,
-        validations: [{ linkContentType: ["optionalCta"] }],
-        disabled: false,
-        omitted: false,
-        linkType: "Entry",
-      },
-      {
         id: "bgColor",
         name: "Background Color",
         type: "Symbol",
@@ -158,6 +153,17 @@ const contentTypes = [
         validations: [{ in: ["Tan", "Teal", "Yellow"] }],
         disabled: false,
         omitted: false,
+      },
+      {
+        id: "cta",
+        name: "CTA",
+        type: "Link",
+        localized: false,
+        required: false,
+        validations: [{ linkContentType: ["ctaLink"] }],
+        disabled: false,
+        omitted: false,
+        linkType: "Entry",
       },
     ],
   },
@@ -172,17 +178,11 @@ const contentTypes = [
       publishedVersion: 5,
       publishedAt: "2019-01-14T22:48:42.972Z",
       firstPublishedAt: "2019-01-10T06:00:41.015Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 3,
       version: 6,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "label",
     name: "Navigation Item",
@@ -231,17 +231,11 @@ const contentTypes = [
       publishedVersion: 3,
       publishedAt: "2019-02-28T19:15:58.323Z",
       firstPublishedAt: "2019-02-28T18:55:12.171Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
       publishedCounter: 2,
       version: 4,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
     },
     displayField: null,
     name: "Checkmarks",
@@ -271,17 +265,11 @@ const contentTypes = [
       publishedVersion: 9,
       publishedAt: "2018-12-20T23:50:36.641Z",
       firstPublishedAt: "2018-12-19T22:31:57.426Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 5,
       version: 10,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Compliance Logo Pond",
@@ -325,17 +313,11 @@ const contentTypes = [
       publishedVersion: 1,
       publishedAt: "2019-01-10T06:06:46.321Z",
       firstPublishedAt: "2019-01-10T06:06:46.321Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 1,
       version: 2,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Navigation Menu",
@@ -374,17 +356,11 @@ const contentTypes = [
       publishedVersion: 19,
       publishedAt: "2019-01-15T00:14:41.634Z",
       firstPublishedAt: "2019-01-10T06:08:31.101Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 10,
       version: 20,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Navigation Top Level Item",
@@ -443,17 +419,11 @@ const contentTypes = [
       publishedVersion: 1,
       publishedAt: "2019-03-07T19:45:29.711Z",
       firstPublishedAt: "2019-03-07T19:45:29.710Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" } },
       publishedCounter: 1,
       version: 2,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" } },
     },
     displayField: "heading",
     name: "Feature Spotlight (Vertical)",
@@ -545,17 +515,11 @@ const contentTypes = [
       publishedVersion: 5,
       publishedAt: "2019-01-15T00:09:02.427Z",
       firstPublishedAt: "2019-01-03T23:20:42.224Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 3,
       version: 6,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Security Feature",
@@ -601,17 +565,11 @@ const contentTypes = [
       publishedVersion: 1,
       publishedAt: "2019-02-08T00:40:13.379Z",
       firstPublishedAt: "2019-02-08T00:40:13.379Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 1,
       version: 2,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "product",
     name: "Price",
@@ -660,17 +618,11 @@ const contentTypes = [
       publishedVersion: 5,
       publishedAt: "2019-03-06T18:07:03.069Z",
       firstPublishedAt: "2019-03-06T00:45:23.583Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
       publishedCounter: 3,
       version: 6,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
     },
     displayField: "heading",
     name: "Feature Spotlight",
@@ -773,17 +725,11 @@ const contentTypes = [
       publishedVersion: 7,
       publishedAt: "2019-02-27T00:18:49.909Z",
       firstPublishedAt: "2019-02-12T23:17:43.502Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
       publishedCounter: 4,
       version: 8,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
     },
     displayField: "title",
     name: "Crosslink Card",
@@ -855,17 +801,11 @@ const contentTypes = [
       publishedVersion: 17,
       publishedAt: "2019-01-23T20:55:31.342Z",
       firstPublishedAt: "2019-01-10T05:58:42.205Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 9,
       version: 18,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Navigation",
@@ -920,17 +860,11 @@ const contentTypes = [
       publishedVersion: 3,
       publishedAt: "2019-03-04T21:42:56.099Z",
       firstPublishedAt: "2019-03-04T21:36:38.692Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
       publishedCounter: 2,
       version: 4,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
     },
     displayField: "heading",
     name: "Logo Party",
@@ -976,11 +910,7 @@ const contentTypes = [
         validations: [{ size: { min: 5, max: 15 } }],
         disabled: false,
         omitted: false,
-        items: {
-          type: "Link",
-          validations: [{ linkContentType: ["logo"] }],
-          linkType: "Entry",
-        },
+        items: { type: "Link", validations: [{ linkContentType: ["logo"] }], linkType: "Entry" },
       },
       {
         id: "cta",
@@ -1006,17 +936,11 @@ const contentTypes = [
       publishedVersion: 3,
       publishedAt: "2019-02-20T19:03:42.351Z",
       firstPublishedAt: "2019-02-19T22:34:46.807Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
       publishedCounter: 2,
       version: 4,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
     },
     displayField: "companyName",
     name: "Testimonial Mini Card",
@@ -1094,7 +1018,8 @@ const contentTypes = [
         validations: [
           {
             regexp: {
-              pattern: "^(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?$",
+              pattern:
+                "^(ftp|http|https):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-\\/]))?$",
             },
           },
         ],
@@ -1114,17 +1039,11 @@ const contentTypes = [
       publishedVersion: 5,
       publishedAt: "2019-01-10T06:42:33.924Z",
       firstPublishedAt: "2019-01-10T05:59:45.802Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 3,
       version: 6,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Navigation Section",
@@ -1168,17 +1087,11 @@ const contentTypes = [
       publishedVersion: 5,
       publishedAt: "2019-02-27T00:17:36.816Z",
       firstPublishedAt: "2019-02-12T23:18:48.984Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
       publishedCounter: 3,
       version: 6,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
     },
     displayField: "headline",
     name: "Card List",
@@ -1243,17 +1156,11 @@ const contentTypes = [
       publishedVersion: 3,
       publishedAt: "2019-03-05T21:54:03.582Z",
       firstPublishedAt: "2019-03-05T21:52:39.415Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" } },
       publishedCounter: 2,
       version: 4,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" } },
     },
     displayField: "heading",
     name: "Gated Content CTA",
@@ -1313,17 +1220,11 @@ const contentTypes = [
       publishedVersion: 1,
       publishedAt: "2019-03-05T20:58:03.164Z",
       firstPublishedAt: "2019-03-05T20:58:03.164Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
       publishedCounter: 1,
       version: 2,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
     },
     displayField: "headline",
     name: "Hero Email Capture",
@@ -1409,17 +1310,11 @@ const contentTypes = [
       publishedVersion: 3,
       publishedAt: "2019-01-11T17:36:50.163Z",
       firstPublishedAt: "2019-01-07T23:55:27.915Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 2,
       version: 4,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: null,
     name: "Jumbotron Header",
@@ -1448,17 +1343,11 @@ const contentTypes = [
       publishedVersion: 1,
       publishedAt: "2019-02-12T23:16:09.855Z",
       firstPublishedAt: "2019-02-12T23:16:09.855Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
       publishedCounter: 1,
       version: 2,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
     },
     displayField: "label",
     name: "CTA Link",
@@ -1517,17 +1406,11 @@ const contentTypes = [
       publishedVersion: 7,
       publishedAt: "2019-01-15T21:16:08.409Z",
       firstPublishedAt: "2019-01-15T20:41:34.580Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 4,
       version: 8,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "name",
     name: "Layout",
@@ -1578,17 +1461,11 @@ const contentTypes = [
       publishedVersion: 1,
       publishedAt: "2019-03-04T21:38:48.529Z",
       firstPublishedAt: "2019-03-04T21:38:48.529Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
       publishedCounter: 1,
       version: 2,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
     },
     displayField: "companyName",
     name: "Logo",
@@ -1628,17 +1505,11 @@ const contentTypes = [
       publishedVersion: 5,
       publishedAt: "2019-01-23T20:39:33.973Z",
       firstPublishedAt: "2019-01-03T23:23:24.551Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 3,
       version: 6,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Security Features Section",
@@ -1692,17 +1563,11 @@ const contentTypes = [
       publishedVersion: 7,
       publishedAt: "2019-01-15T17:42:10.412Z",
       firstPublishedAt: "2019-01-09T20:43:26.712Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 4,
       version: 8,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Footer Section",
@@ -1741,17 +1606,11 @@ const contentTypes = [
       publishedVersion: 1,
       publishedAt: "2019-03-05T01:32:15.698Z",
       firstPublishedAt: "2019-03-05T01:32:15.698Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 1,
       version: 2,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "name",
     name: "Marketo Form",
@@ -1790,21 +1649,15 @@ const contentTypes = [
       publishedVersion: 3,
       publishedAt: "2019-03-01T21:59:06.649Z",
       firstPublishedAt: "2019-02-28T18:52:59.284Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
       publishedCounter: 2,
       version: 4,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
     },
     displayField: "heading",
     name: "Email Capture",
-    description: "A general signup/start trial email submission form ",
+    description: "A general signup/start trial email submission form\n",
     fields: [
       {
         id: "heading",
@@ -1895,17 +1748,11 @@ const contentTypes = [
       publishedVersion: 3,
       publishedAt: "2019-01-14T22:25:09.847Z",
       firstPublishedAt: "2019-01-10T00:50:11.393Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 2,
       version: 4,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Security Footer",
@@ -1965,17 +1812,11 @@ const contentTypes = [
       publishedVersion: 5,
       publishedAt: "2019-03-07T01:22:56.605Z",
       firstPublishedAt: "2019-03-07T00:24:49.175Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
       publishedCounter: 3,
       version: 6,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
     },
     displayField: "heading",
     name: "Feature Spotlight Citation",
@@ -2062,7 +1903,8 @@ const contentTypes = [
         validations: [
           {
             regexp: {
-              pattern: "^(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?$",
+              pattern:
+                "^(ftp|http|https):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-\\/]))?$",
             },
           },
         ],
@@ -2124,17 +1966,11 @@ const contentTypes = [
       publishedVersion: 31,
       publishedAt: "2019-03-08T19:49:59.928Z",
       firstPublishedAt: "2019-02-20T18:20:54.132Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
       publishedCounter: 16,
       version: 32,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
     },
     displayField: "title",
     name: "Feature Announcement",
@@ -2258,17 +2094,11 @@ const contentTypes = [
       publishedVersion: 59,
       publishedAt: "2019-03-08T18:48:00.889Z",
       firstPublishedAt: "2018-12-19T21:50:33.636Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
       publishedCounter: 30,
       version: 60,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ypfTkhVi28ATJHO2MIpS7" } },
     },
     displayField: "title",
     name: "Page",
@@ -2282,7 +2112,7 @@ const contentTypes = [
         required: true,
         validations: [
           {
-            regexp: { pattern: "^[a-z-]+(/[a-z-]+)*$", flags: "" },
+            regexp: { pattern: "^[a-z\\-]+(\\/[a-z\\-]+)*$", flags: "" },
             message:
               "This is an invalid path. Paths cannot start with a slash and must contain only lowercase letters, numbers, dashes, and forward slashes.",
           },
@@ -2378,17 +2208,11 @@ const contentTypes = [
       publishedVersion: 11,
       publishedAt: "2019-01-23T20:00:30.952Z",
       firstPublishedAt: "2019-01-03T23:23:04.551Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 6,
       version: 12,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Security Feature Category",
@@ -2453,17 +2277,11 @@ const contentTypes = [
       publishedVersion: 1,
       publishedAt: "2019-01-09T20:44:12.368Z",
       firstPublishedAt: "2019-01-09T20:44:12.368Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 1,
       version: 2,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: null,
     name: "Footer",
@@ -2497,17 +2315,11 @@ const contentTypes = [
       publishedVersion: 29,
       publishedAt: "2019-03-01T22:58:53.337Z",
       firstPublishedAt: "2019-01-16T23:20:09.589Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" } },
       publishedCounter: 15,
       version: 30,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "6FAPbSCI8Jbv7XzNo2p5CP" } },
     },
     displayField: "metaTitle",
     name: "SEO Metadata",
@@ -2608,17 +2420,11 @@ const contentTypes = [
       publishedVersion: 23,
       publishedAt: "2019-03-07T17:09:15.741Z",
       firstPublishedAt: "2018-12-19T22:32:44.424Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 12,
       version: 24,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "title",
     name: "Compliance Logo",
@@ -2668,17 +2474,11 @@ const contentTypes = [
       publishedVersion: 1,
       publishedAt: "2019-02-26T18:11:08.458Z",
       firstPublishedAt: "2019-02-26T18:11:08.458Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
       publishedCounter: 1,
       version: 2,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
     },
     displayField: "message",
     name: "Roofline Banner",
@@ -2714,7 +2514,8 @@ const contentTypes = [
         validations: [
           {
             regexp: {
-              pattern: "^(ftp|http|https)://(w+:{0,1}w*@)?(S+)(:[0-9]+)?(/|/([w#!:.?+=&%@!-/]))?$",
+              pattern:
+                "^(ftp|http|https):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-\\/]))?$",
             },
           },
         ],
@@ -2744,17 +2545,11 @@ const contentTypes = [
       publishedVersion: 3,
       publishedAt: "2019-01-23T20:59:33.531Z",
       firstPublishedAt: "2019-01-23T20:55:08.873Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
       publishedCounter: 2,
       version: 4,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "04Z9KRmPanYsqyiqFoU1om" } },
     },
     displayField: "placeholder",
     name: "Signup CTA",
@@ -2793,17 +2588,11 @@ const contentTypes = [
       publishedVersion: 3,
       publishedAt: "2019-02-19T22:40:35.251Z",
       firstPublishedAt: "2019-02-19T22:39:10.381Z",
-      createdBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
-      updatedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      createdBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
+      updatedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
       publishedCounter: 2,
       version: 4,
-      publishedBy: {
-        sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" },
-      },
+      publishedBy: { sys: { type: "Link", linkType: "User", id: "3ydnlNuap950mQsaT0TzKZ" } },
     },
     displayField: null,
     name: "Mini Testimonials",

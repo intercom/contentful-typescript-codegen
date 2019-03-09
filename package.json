@@ -80,6 +80,7 @@
   "devDependencies": {
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
+    "@contentful/rich-text-types": "^13.1.0",
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
     "@types/prettier": "^1.16.1",

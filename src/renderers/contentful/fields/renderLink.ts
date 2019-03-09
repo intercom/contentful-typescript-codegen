@@ -1,5 +1,5 @@
 import { Field } from "contentful"
-import { renderContentTypeId } from "../renderContentType"
+import renderContentTypeId from "../renderContentTypeId"
 import { renderUnionValues } from "../../typescript/renderUnion"
 
 export default function renderLink(field: Field): string {

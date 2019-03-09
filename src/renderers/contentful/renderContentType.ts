@@ -1,8 +1,8 @@
 import { ContentType, Field, FieldType } from "contentful"
-import { upperFirst, camelCase } from "lodash"
 
 import renderInterface from "../typescript/renderInterface"
 import renderField from "./renderField"
+import renderContentTypeId from "./renderContentTypeId"
 
 import renderArray from "./fields/renderArray"
 import renderBoolean from "./fields/renderBoolean"
@@ -21,10 +21,6 @@ export default function renderContentType(contentType: ContentType) {
     renderContentTypeId(contentType.sys.id),
     renderContentTypeFields(contentType.fields),
   )
-}
-
-export function renderContentTypeId(contentTypeId: string): string {
-  return "I" + upperFirst(camelCase(contentTypeId))
 }
 
 function renderContentTypeFields(fields: Field[]): string {
