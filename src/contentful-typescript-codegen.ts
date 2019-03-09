@@ -4,9 +4,11 @@ import renderContentType from "./renderers/contentful/renderContentType"
 export async function generateTypes(contentTypes: ContentType[]) {
   let source = ""
 
-  contentTypes.forEach(contentType => {
-    source += renderContentType(contentType)
-  })
+  contentTypes
+    .sort((a, b) => a.sys.id.localeCompare(b.sys.id))
+    .forEach(contentType => {
+      source += renderContentType(contentType)
+    })
 
   return source
 }
