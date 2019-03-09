@@ -1,5 +1,5 @@
 import renderLink from "../../../../src/renderers/contentful/fields/renderLink"
-import { Field, FieldItem } from "contentful"
+import { Field } from "contentful"
 
 describe("renderLink()", () => {
   it("renders a simple entry link", () => {
