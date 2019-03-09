@@ -1,0 +1,27 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:10.15.0
+
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{arch}}-{{ checksum "package.json" }}
+            - v1-dependencies-{{arch}}-
+
+      - run: yarn install
+      - run:
+          name: Run tests
+          command: yarn test --ci
+
+      - save_cache:
+          key: v1-dependencies-{{arch}}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
