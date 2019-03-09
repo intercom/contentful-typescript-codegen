@@ -34,10 +34,10 @@ const cli = meow(
 )
 
 async function runCodegen(outputFile: string) {
-  const getSpacePath = path.resolve(process.cwd(), "./getContentfulSpace.js")
-  const getSpace = require(getSpacePath)
-  const space = (await getSpace()) as any
-  const contentTypes = await space.getContentTypes()
+  const getEnvironmentPath = path.resolve(process.cwd(), "./getContentfulEnvironment.js")
+  const getEnvironment = require(getEnvironmentPath)
+  const environment = (await getEnvironment()) as any
+  const contentTypes = await environment.getContentTypes()
   const output = await render(contentTypes.items)
 
   const outputPath = path.resolve(process.cwd(), outputFile)
