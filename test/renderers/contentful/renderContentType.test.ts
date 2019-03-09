@@ -45,7 +45,7 @@ describe("renderSymbol()", () => {
 
   it("works with miscellaneous field types", () => {
     expect(format(renderContentType(contentType))).toMatchInlineSnapshot(`
-"interface IMyContentTypeFields {
+"export interface IMyContentTypeFields {
   /** Symbol Field™ */
   symbolField: string | null;
 

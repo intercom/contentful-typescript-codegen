@@ -41,7 +41,7 @@ describe("render()", () => {
 import { Asset, Entry } from \\"contentful\\"
 import { Document } from \\"@contentful/rich-text-types\\"
 
-interface IMyContentTypeFields {
+export interface IMyContentTypeFields {
   /** Array field */
   arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
 }

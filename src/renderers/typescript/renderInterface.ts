@@ -4,7 +4,7 @@ export default function renderInterface(
   description?: string,
 ): string {
   return `
-    interface ${name}Fields {
+    export interface ${name}Fields {
       ${fields}
     };
 
