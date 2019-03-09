@@ -6,12 +6,12 @@ const { readFileSync, writeFileSync } = require("fs")
 const pkg = JSON.parse(readFileSync(path.resolve(__dirname, "..", "package.json")))
 
 pkg.scripts.prepush = "npm run test:prod && npm run build"
-pkg.scripts.commitmsg = "commitlint -E GIT_PARAMS"
+pkg.scripts.commitmsg = "commitlint -E HUSKY_GIT_PARAMS"
 
 writeFileSync(path.resolve(__dirname, "..", "package.json"), JSON.stringify(pkg, null, 2))
 
 // Call husky to set up the hooks
-fork(path.resolve(__dirname, "..", "node_modules", "husky", "bin", "install"))
+fork(path.resolve(__dirname, "..", "node_modules", "husky", "lib", "installer", "bin"), ["install"])
 
 console.log()
 console.log(colors.green("Done!!"))
