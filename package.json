@@ -14,7 +14,7 @@
   "author": "Steven Petryk <steven.petryk@intercom.io>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/intercom/contentful-typescript-codegen"
   },
   "license": "MIT",
   "engines": {
@@ -99,7 +99,6 @@
     "jest-config": "^23.6.0",
     "lint-staged": "^8.0.0",
     "lodash.camelcase": "^4.3.0",
-    "prettier": "^1.16.4",
     "prompt": "^1.0.0",
     "replace-in-file": "^3.4.2",
     "rimraf": "^2.6.2",
@@ -129,5 +128,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "peerDependencies": {
+    "prettier": "1.x"
   }
 }
