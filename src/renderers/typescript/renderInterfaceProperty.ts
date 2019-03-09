@@ -11,7 +11,7 @@ export default function renderInterfaceProperty(
 
 function descriptionComment(description: string | undefined) {
   if (description) {
-    return `/** ${description} */`
+    return `/** ${description} */\n`
   } else {
     return ""
   }

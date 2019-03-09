@@ -1,5 +1,5 @@
 import renderContentType from "../../../src/renderers/contentful/renderContentType"
-import { ContentType, Sys } from "contentful"
+import { ContentType, Sys, FieldItem, Entry } from "contentful"
 
 describe("renderSymbol()", () => {
   const contentType: ContentType = {
@@ -8,14 +8,32 @@ describe("renderSymbol()", () => {
     } as Sys,
     fields: [
       {
-        id: "field1",
-        name: "Field One™",
+        id: "symbolField",
+        name: "Symbol Field™",
         required: false,
         validations: [],
         disabled: false,
         omitted: false,
         localized: false,
         type: "Symbol",
+      },
+      {
+        id: "arrayField",
+        name: "Array field",
+        required: true,
+        validations: [{}],
+        items: (<unknown>{
+          type: "Symbol",
+          validations: [
+            {
+              in: ["one", "of", "the", "above"],
+            },
+          ],
+        }) as FieldItem[], // incorrectly typed by Contentful, overriding
+        disabled: false,
+        omitted: false,
+        localized: false,
+        type: "Array",
       },
     ],
     description: "",
@@ -24,11 +42,17 @@ describe("renderSymbol()", () => {
     toPlainObject: () => ({} as ContentType),
   }
 
-  it("works with a simple content type", () => {
+  it("works with miscellaneous field types", () => {
     expect(renderContentType(contentType).trim()).toMatchInlineSnapshot(`
-"interface IMyContentType extends Entry<{
-      /** Field One™ */ field1: string | null;
-    }> {};"
+"interface IMyContentTypeFields {
+      /** Symbol Field™ */
+ symbolField: string | null;
+
+/** Array field */
+ arrayField: ('one' | 'of' | 'the' | 'above')[];
+    };
+
+    export interface IMyContentType extends Entry<IMyContentTypeFields> {};"
 `)
   })
 })

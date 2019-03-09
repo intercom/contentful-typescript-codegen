@@ -8,11 +8,21 @@ export default function renderArray(field: Field): string {
 
   switch (fieldItems.type) {
     case "Symbol": {
-      return `${renderSymbol(field)}[]`
+      const fieldWithValidations: Field = {
+        ...field,
+        validations: fieldItems.validations || [],
+      }
+
+      return `(${renderSymbol(fieldWithValidations)})[]`
     }
 
     case "Link": {
-      return `${renderLink(field)}[]`
+      const fieldWithValidations: Field = {
+        ...field,
+        validations: fieldItems.validations || [],
+      }
+
+      return `(${renderLink(fieldWithValidations)})[]`
     }
   }
 
