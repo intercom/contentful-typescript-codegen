@@ -3,40 +3,48 @@ import { upperFirst, camelCase } from "lodash"
 
 import renderInterface from "../typescript/renderInterface"
 
+import renderArray from "./fields/renderArray"
 import renderBoolean from "./fields/renderBoolean"
 import renderDate from "./fields/renderDate"
 import renderInteger from "./fields/renderInteger"
+import renderLink from "./fields/renderLink"
 import renderLocation from "./fields/renderLocation"
 import renderNumber from "./fields/renderNumber"
+import renderObject from "./fields/renderObject"
+import renderRichText from "./fields/renderRichText"
 import renderSymbol from "./fields/renderSymbol"
+import renderText from "./fields/renderText"
+import renderField from "./renderField"
 
 export default function renderContentType(contentType: ContentType) {
-  const id = contentType.sys.id
-  const idAsInterfaceName = "I" + upperFirst(camelCase(id))
+  return renderInterface(
+    renderContentTypeId(contentType.sys.id),
+    renderContentTypeFields(contentType.fields),
+  )
+}
 
-  const renderedFields = renderContentTypeFields(contentType.fields)
-
-  return renderInterface(idAsInterfaceName, renderedFields)
+export function renderContentTypeId(contentTypeId: string): string {
+  return "I" + upperFirst(camelCase(contentTypeId))
 }
 
 function renderContentTypeFields(fields: Field[]): string {
   return fields
     .map<string>(field => {
       const functionMap: Record<FieldType, (field: Field) => string> = {
-        Array: undefined,
+        Array: renderArray,
         Boolean: renderBoolean,
         Date: renderDate,
         Integer: renderInteger,
-        Link: undefined,
+        Link: renderLink,
         Location: renderLocation,
         Number: renderNumber,
-        Object: undefined,
-        RichText: undefined,
+        Object: renderObject,
+        RichText: renderRichText,
         Symbol: renderSymbol,
-        Text: undefined,
+        Text: renderText,
       }
 
-      return functionMap[field.type](field)
+      return renderField(field, functionMap[field.type](field))
     })
     .join("\n\n")
 }

@@ -1,4 +1,4 @@
-import renderBoolean from "../renderBoolean"
+import renderBoolean from "../../../../src/renderers/contentful/fields/renderBoolean"
 import { Field } from "contentful"
 
 describe("renderSymbol()", () => {
@@ -15,8 +15,6 @@ describe("renderSymbol()", () => {
   }
 
   it("works with simple booleans", () => {
-    expect(renderBoolean(simpleBoolean).trim()).toMatchInlineSnapshot(
-      `"/** Field Name */ fieldId: boolean;"`,
-    )
+    expect(renderBoolean(simpleBoolean).trim()).toMatchInlineSnapshot(`"boolean"`)
   })
 })

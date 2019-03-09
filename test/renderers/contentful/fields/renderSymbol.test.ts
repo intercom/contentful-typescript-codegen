@@ -1,4 +1,4 @@
-import renderSymbol from "../renderSymbol"
+import renderSymbol from "../../../../src/renderers/contentful/fields/renderSymbol"
 import { Field } from "contentful"
 
 describe("renderSymbol()", () => {
@@ -27,14 +27,12 @@ describe("renderSymbol()", () => {
   }
 
   it("works with simple strings", () => {
-    expect(renderSymbol(simpleString).trim()).toMatchInlineSnapshot(
-      `"/** Field Name */ fieldId: string;"`,
-    )
+    expect(renderSymbol(simpleString).trim()).toMatchInlineSnapshot(`"string"`)
   })
 
   it("works with strings with validations", () => {
     expect(renderSymbol(stringWithValidations).trim()).toMatchInlineSnapshot(
-      `"/** Field Name */ fieldId: 'one' | 'or' | 'the' | 'other';"`,
+      `"'one' | 'or' | 'the' | 'other'"`,
     )
   })
 })

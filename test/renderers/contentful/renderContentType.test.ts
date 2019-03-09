@@ -1,4 +1,4 @@
-import renderContentType from "../renderContentType"
+import renderContentType from "../../../src/renderers/contentful/renderContentType"
 import { ContentType, Sys } from "contentful"
 
 describe("renderSymbol()", () => {
