@@ -1,5 +1,5 @@
 import render from "../../src/renderers/render"
-import { ContentType, Sys, FieldItem } from "contentful"
+import { ContentType, Sys } from "contentful"
 
 describe("render()", () => {
   it("renders given a content type", async () => {
@@ -14,14 +14,14 @@ describe("render()", () => {
             name: "Array field",
             required: true,
             validations: [{}],
-            items: (<unknown>{
+            items: {
               type: "Symbol",
               validations: [
                 {
                   in: ["one", "of", "the", "above"],
                 },
               ],
-            }) as FieldItem[], // incorrectly typed by Contentful, overriding
+            },
             disabled: false,
             omitted: false,
             localized: false,

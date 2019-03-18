@@ -1,19 +1,20 @@
-import { Field, FieldItem } from "contentful"
+import { Field } from "contentful"
 import renderSymbol from "./renderSymbol"
 import renderLink from "./renderLink"
 import renderArrayOf from "../../typescript/renderArrayOf"
 
 export default function renderArray(field: Field): string {
-  // This is (incorrectly) an array in the Contentful typings
-  const fieldItems = (<unknown>field.items) as FieldItem
+  if (!field.items) {
+    throw new Error(`Cannot render non-array field ${field.id} as an array`)
+  }
 
   const fieldWithValidations: Field = {
     ...field,
-    linkType: fieldItems.linkType,
-    validations: fieldItems.validations,
+    linkType: field.items.linkType,
+    validations: field.items.validations || [],
   }
 
-  switch (fieldItems.type) {
+  switch (field.items.type) {
     case "Symbol": {
       return renderArrayOf(renderSymbol(fieldWithValidations))
     }

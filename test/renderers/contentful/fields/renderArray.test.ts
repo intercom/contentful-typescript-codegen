@@ -1,5 +1,5 @@
 import renderArray from "../../../../src/renderers/contentful/fields/renderArray"
-import { Field, FieldItem } from "contentful"
+import { Field } from "contentful"
 
 describe("renderArray()", () => {
   it("renders an array of symbols", () => {
@@ -13,10 +13,10 @@ describe("renderArray()", () => {
       disabled: false,
       linkType: undefined,
       localized: false,
-      items: ({
+      items: {
         type: "Symbol",
         validations: [],
-      } as unknown) as FieldItem[],
+      },
     }
 
     expect(renderArray(arrayOfSymbols)).toMatchInlineSnapshot(`"(string)[]"`)
@@ -33,10 +33,10 @@ describe("renderArray()", () => {
       disabled: false,
       linkType: undefined,
       localized: false,
-      items: ({
+      items: {
         type: "Symbol",
         validations: [{ in: ["one", "of", "these"] }],
-      } as unknown) as FieldItem[],
+      },
     }
 
     expect(renderArray(arrayOfValidatedSymbols)).toMatchInlineSnapshot(
@@ -55,35 +55,15 @@ describe("renderArray()", () => {
       disabled: false,
       linkType: undefined,
       localized: false,
-      items: ({
+      items: {
         type: "Link",
         linkType: "Entry",
         validations: [{ linkContentType: ["contentType1", "contentType2"] }],
-      } as unknown) as FieldItem[],
+      },
     }
 
     expect(renderArray(arrayOfValidatedSymbols)).toMatchInlineSnapshot(
       `"(IContentType1 | IContentType2)[]"`,
     )
-  })
-
-  it("handles mysterious cases", () => {
-    const arrayOfValidatedSymbols: Field = {
-      type: "Array",
-      id: "fieldId",
-      name: "Field Name",
-      validations: [],
-      omitted: false,
-      required: true,
-      disabled: false,
-      linkType: undefined,
-      localized: false,
-      items: ({
-        type: "Unknown",
-        validations: [],
-      } as unknown) as FieldItem[],
-    }
-
-    expect(renderArray(arrayOfValidatedSymbols)).toMatchInlineSnapshot(`"(unknown)[]"`)
   })
 })
