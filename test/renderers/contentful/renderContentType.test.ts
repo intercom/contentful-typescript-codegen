@@ -47,7 +47,7 @@ describe("renderSymbol()", () => {
     expect(format(renderContentType(contentType))).toMatchInlineSnapshot(`
 "export interface IMyContentTypeFields {
   /** Symbol Field™ */
-  symbolField: string | null;
+  symbolField?: string | undefined;
 
   /** Array field */
   arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];

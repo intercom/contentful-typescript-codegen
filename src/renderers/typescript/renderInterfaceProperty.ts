@@ -4,9 +4,15 @@ export default function renderInterfaceProperty(
   required: boolean,
   description?: string,
 ): string {
-  return [descriptionComment(description), `${name}: ${type}${required ? "" : " | null"};`].join(
-    " ",
-  )
+  return [
+    descriptionComment(description),
+    name,
+    required ? "" : "?",
+    ": ",
+    type,
+    required ? "" : " | undefined",
+    ";",
+  ].join("")
 }
 
 function descriptionComment(description: string | undefined) {

@@ -3,13 +3,13 @@ import renderInterfaceProperty from "../../../src/renderers/typescript/renderInt
 describe("renderInterfaceProperty()", () => {
   it("works with unrequired properties", () => {
     expect(renderInterfaceProperty("property", "type", false).trim()).toMatchInlineSnapshot(
-      `"property: type | null;"`,
+      `"property?: type | undefined;"`,
     )
   })
 
   it("works with required properties", () => {
-    expect(renderInterfaceProperty("property", "type", false).trim()).toMatchInlineSnapshot(
-      `"property: type | null;"`,
+    expect(renderInterfaceProperty("property", "type", true).trim()).toMatchInlineSnapshot(
+      `"property: type;"`,
     )
   })
 
@@ -17,7 +17,7 @@ describe("renderInterfaceProperty()", () => {
     expect(renderInterfaceProperty("property", "type", false, "Description").trim())
       .toMatchInlineSnapshot(`
 "/** Description */
- property: type | null;"
+property?: type | undefined;"
 `)
   })
 })
