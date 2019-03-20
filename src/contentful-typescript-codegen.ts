@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import render from "./renderers/render"
 import path from "path"
 import { outputFileSync } from "fs-extra"
