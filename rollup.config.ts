@@ -27,6 +27,5 @@ export default {
     }),
     resolve(),
     sourceMaps(),
-    shebang(),
   ],
 }
