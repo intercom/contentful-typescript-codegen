@@ -43,7 +43,9 @@ async function runCodegen(outputFile: string) {
   outputFileSync(outputPath, output)
 }
 
-runCodegen(cli.flags.output)
+runCodegen(cli.flags.output).catch(error => {
+  console.error(error)
+})
 
 if (cli.flags.watch) {
   setInterval(() => runCodegen(cli.flags.output), 5000)
