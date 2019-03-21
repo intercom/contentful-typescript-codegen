@@ -37,7 +37,8 @@ async function runCodegen(outputFile: string) {
   const getEnvironment = require(getEnvironmentPath)
   const environment = await getEnvironment()
   const contentTypes = await environment.getContentTypes()
-  const output = await render(contentTypes.items)
+  const locales = await environment.getLocales()
+  const output = await render(contentTypes.items, locales.items)
 
   const outputPath = path.resolve(process.cwd(), outputFile)
   outputFileSync(outputPath, output)
