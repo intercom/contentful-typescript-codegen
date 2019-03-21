@@ -19,9 +19,7 @@ export interface IFoo extends Entry<IFooFields> {}"
   field: string;
 }
 
-/**
- * Example interface
- */
+/** Example interface */
 export interface IFoo extends Entry<IFooFields> {}"
 `)
   })

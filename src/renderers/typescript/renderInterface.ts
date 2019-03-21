@@ -15,10 +15,7 @@ export default function renderInterface(
 
 function descriptionComment(description: string | undefined) {
   if (description) {
-    return `
-      /**
-       * ${description}
-       */`
+    return `/** ${description} */`
   }
 
   return ""
