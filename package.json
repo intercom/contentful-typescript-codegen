@@ -1,12 +1,10 @@
 {
   "name": "contentful-typescript-codegen",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "keywords": [],
   "main": "dist/contentful-typescript-codegen.js",
-  "bin": {
-    "contentful-typescript-codegen": "./dist/contentful-typescript-codegen.js"
-  },
+  "bin": "./dist/contentful-typescript-codegen.js",
   "typings": "dist/types/contentful-typescript-codegen.d.ts",
   "files": [
     "dist"
@@ -23,7 +21,7 @@
   "scripts": {
     "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src && chmod +x dist/contentful-typescript-codegen.js",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
