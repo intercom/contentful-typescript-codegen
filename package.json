@@ -1,11 +1,11 @@
 {
   "name": "contentful-typescript-codegen",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "keywords": [],
   "main": "dist/contentful-typescript-codegen.js",
   "bin": {
-    "contentful-typescript-codegen": "dist/contentful-typescript-codegen.js"
+    "contentful-typescript-codegen": "./dist/contentful-typescript-codegen.js"
   },
   "typings": "dist/types/contentful-typescript-codegen.d.ts",
   "files": [
