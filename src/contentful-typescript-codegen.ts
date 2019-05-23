@@ -54,7 +54,7 @@ runCodegen(cli.flags.output).catch(error => {
   console.error(error)
 })
 
-if (cli.flags.watch) {
+if (cli.flags.poll) {
   const intervalInSeconds = parseInt(cli.flags.interval, 10)
 
   if (!isNaN(intervalInSeconds) && intervalInSeconds > 0) {

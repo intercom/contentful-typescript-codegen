@@ -88,7 +88,7 @@ function runCodegen(outputFile) {
 runCodegen(cli.flags.output).catch(function (error) {
     console.error(error);
 });
-if (cli.flags.watch) {
+if (cli.flags.poll) {
     var intervalInSeconds = parseInt(cli.flags.interval, 10);
     if (!isNaN(intervalInSeconds) && intervalInSeconds > 0) {
         setInterval(function () { return runCodegen(cli.flags.output); }, intervalInSeconds * 1000);
