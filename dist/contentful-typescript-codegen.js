@@ -308,9 +308,9 @@ runCodegen(cli.flags.output).catch(function (error) {
     console.error(error);
 });
 if (cli.flags.watch) {
-    var interval = parseInt(cli.flags.interval, 10);
-    if (!isNaN(interval) && interval > 0) {
-        setInterval(function () { return runCodegen(cli.flags.output); }, cli.flags.interval);
+    var intervalInSeconds = parseInt(cli.flags.interval, 10);
+    if (!isNaN(intervalInSeconds) && intervalInSeconds > 0) {
+        setInterval(function () { return runCodegen(cli.flags.output); }, intervalInSeconds * 1000);
     }
     else {
         throw new Error("Expected a positive numeric interval, but got " + cli.flags.interval);

@@ -1,6 +1,6 @@
 {
   "name": "contentful-typescript-codegen",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "",
   "keywords": [],
   "main": "dist/contentful-typescript-codegen.js",
