@@ -39,16 +39,21 @@ var render_1 = require("./renderers/render");
 var path_1 = require("path");
 var fs_extra_1 = require("fs-extra");
 var meow = require("meow");
-var cli = meow("\n\tUsage\n\t  $ contentful-typescript-codegen --output <file> <options>\n\n\tOptions\n\t  --output, -o  Where to write to\n\t  --watch,  -w  Continuously output\n\n\tExamples\n\t  $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts\n", {
+var cli = meow("\n\tUsage\n\t  $ contentful-typescript-codegen --output <file> <options>\n\n\tOptions\n\t  --output,      -o  Where to write to\n    --poll,        -p  Continuously refresh types\n    --interval N,  -i  The interval in seconds at which to poll (defaults to 15)\n\n\tExamples\n\t  $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts\n", {
     flags: {
         output: {
             type: "string",
             alias: "o",
             required: true,
         },
-        watch: {
+        poll: {
             type: "boolean",
-            alias: "w",
+            alias: "p",
+            required: false,
+        },
+        interval: {
+            type: "string",
+            alias: "i",
             required: false,
         },
     },
@@ -84,6 +89,12 @@ runCodegen(cli.flags.output).catch(function (error) {
     console.error(error);
 });
 if (cli.flags.watch) {
-    setInterval(function () { return runCodegen(cli.flags.output); }, 5000);
+    var interval = parseInt(cli.flags.interval, 10);
+    if (!isNaN(interval) && interval > 0) {
+        setInterval(function () { return runCodegen(cli.flags.output); }, cli.flags.interval);
+    }
+    else {
+        throw new Error("Expected a positive numeric interval, but got " + cli.flags.interval);
+    }
 }
 //# sourceMappingURL=contentful-typescript-codegen.js.map

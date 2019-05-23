@@ -10,8 +10,9 @@ const cli = meow(
 	  $ contentful-typescript-codegen --output <file> <options>
 
 	Options
-	  --output, -o  Where to write to
-	  --watch,  -w  Continuously output
+	  --output,      -o  Where to write to
+    --poll,        -p  Continuously refresh types
+    --interval N,  -i  The interval in seconds at which to poll (defaults to 15)
 
 	Examples
 	  $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts
@@ -23,9 +24,14 @@ const cli = meow(
         alias: "o",
         required: true,
       },
-      watch: {
+      poll: {
         type: "boolean",
-        alias: "w",
+        alias: "p",
+        required: false,
+      },
+      interval: {
+        type: "string",
+        alias: "i",
         required: false,
       },
     },
@@ -49,5 +55,11 @@ runCodegen(cli.flags.output).catch(error => {
 })
 
 if (cli.flags.watch) {
-  setInterval(() => runCodegen(cli.flags.output), 5000)
+  const intervalInSeconds = parseInt(cli.flags.interval, 10)
+
+  if (!isNaN(intervalInSeconds) && intervalInSeconds > 0) {
+    setInterval(() => runCodegen(cli.flags.output), intervalInSeconds * 1000)
+  } else {
+    throw new Error(`Expected a positive numeric interval, but got ${cli.flags.interval}`)
+  }
 }
