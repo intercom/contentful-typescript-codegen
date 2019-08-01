@@ -35,9 +35,22 @@ jobs:
           name: Run tests
           command: yarn test --ci
 
+
+  release:
+    <<: *defaults
+
+    steps:
+      - checkout
+      - run: yarn install
+      - run: yarn build
+      - run: yarn semantic-release
+
 workflows:
   version: 2
 
   test:
     jobs:
       - test
+      - release:
+          requires:
+            - test

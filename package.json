@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/intercom/contentful-typescript-codegen"
   },
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "main": "dist/contentful-typescript-codegen.js",
   "bin": "./dist/contentful-typescript-codegen.js",
   "files": [
@@ -23,7 +23,8 @@
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:prod": "npm run lint && npm run test -- --no-cache",
-    "test:watch": "jest --coverage --watch"
+    "test:watch": "jest --coverage --watch",
+    "semantic-release": "semantic-release"
   },
   "typings": "dist/types/contentful-typescript-codegen.d.ts",
   "dependencies": {
@@ -61,6 +62,7 @@
     "rollup-plugin-shebang": "^0.1.5",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-typescript2": "^0.22.1",
+    "semantic-release": "^15.13.19",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
