@@ -14,7 +14,7 @@ ensure that breaking changes to our Content Types don't cause an outage, and bec
 ## Usage
 
 ```sh
-yarn install --dev contentful-typescript-codegen
+yarn add --dev contentful-typescript-codegen
 ```
 
 Then, add the following to your `package.json`:
