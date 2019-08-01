@@ -1,0 +1,80 @@
+{
+  "name": "contentful-typescript-codegen",
+  "description": "Generate TypeScript types from your Contentful environment.",
+  "license": "MIT",
+  "author": "Steven Petryk <steven.petryk@intercom.io>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/intercom/contentful-typescript-codegen"
+  },
+  "version": "1.0.0",
+  "main": "dist/contentful-typescript-codegen.js",
+  "bin": "./dist/contentful-typescript-codegen.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && chmod +x dist/contentful-typescript-codegen.js",
+    "commit": "git-cz",
+    "format": "prettier --write \"**/*.ts\"",
+    "format:check": "npm run format -- --check",
+    "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "start": "rollup -c rollup.config.ts -w",
+    "test": "jest --coverage",
+    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "test:watch": "jest --coverage --watch"
+  },
+  "typings": "dist/types/contentful-typescript-codegen.d.ts",
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "lodash": "^4.17.15",
+    "meow": "^5.0.0"
+  },
+  "peerDependencies": {
+    "prettier": "1.x"
+  },
+  "devDependencies": {
+    "@contentful/rich-text-types": "^13.4.0",
+    "@types/fs-extra": "^8.0.0",
+    "@types/jest": "^24.0.16",
+    "@types/lodash": "^4.14.136",
+    "@types/meow": "^5.0.0",
+    "@types/node": "^12.6.8",
+    "@types/prettier": "^1.18.0",
+    "colors": "^1.3.3",
+    "contentful": "^7.8.2",
+    "coveralls": "^3.0.5",
+    "cross-env": "^5.2.0",
+    "cz-conventional-changelog": "^3.0.2",
+    "husky": "^3.0.2",
+    "jest": "^24.8.0",
+    "jest-config": "^24.8.0",
+    "lint-staged": "^9.2.1",
+    "lodash.camelcase": "^4.3.0",
+    "prettier": "1.x",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.18.0",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-shebang": "^0.1.5",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-typescript2": "^0.22.1",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.5.3"
+  },
+  "keywords": [],
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
