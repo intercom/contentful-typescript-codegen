@@ -1,4 +1,4 @@
-import { ContentType, Field, FieldType } from "contentful"
+import { ContentType, Field, FieldType, Sys } from "contentful"
 
 import renderInterface from "../typescript/renderInterface"
 import renderField from "./renderField"
@@ -18,6 +18,7 @@ export default function renderContentType(contentType: ContentType) {
     renderContentTypeId(contentType.sys.id),
     renderContentTypeFields(contentType.fields),
     contentType.description,
+    renderSys(contentType.sys),
   )
 }
 
@@ -42,4 +43,23 @@ function renderContentTypeFields(fields: Field[]): string {
       return renderField(field, functionMap[field.type](field))
     })
     .join("\n\n")
+}
+
+function renderSys(sys: Sys) {
+  return `
+    sys: {
+      id: string;
+      type: string;
+      createdAt: string;
+      updatedAt: string;
+      locale: string;
+      contentType: {
+        sys: {
+          id: '${sys.id}';
+          linkType: 'ContentType';
+          type: 'Link';
+        }
+      }
+    }
+  `
 }
