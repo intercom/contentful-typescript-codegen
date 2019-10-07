@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/intercom/contentful-typescript-codegen"
   },
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "main": "dist/contentful-typescript-codegen.js",
   "bin": "./dist/contentful-typescript-codegen.js",
   "files": [
