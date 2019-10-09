@@ -45,15 +45,30 @@ describe("renderSymbol()", () => {
 
   it("works with miscellaneous field types", () => {
     expect(format(renderContentType(contentType))).toMatchInlineSnapshot(`
-"export interface IMyContentTypeFields {
-  /** Symbol Field™ */
-  symbolField?: string | undefined;
+      "export interface IMyContentTypeFields {
+        /** Symbol Field™ */
+        symbolField?: string | undefined;
 
-  /** Array field */
-  arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
-}
+        /** Array field */
+        arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
+      }
 
-export interface IMyContentType extends Entry<IMyContentTypeFields> {}"
-`)
+      export interface IMyContentType extends Entry<IMyContentTypeFields> {
+        sys: {
+          id: string,
+          type: string,
+          createdAt: string,
+          updatedAt: string,
+          locale: string,
+          contentType: {
+            sys: {
+              id: \\"myContentType\\",
+              linkType: \\"ContentType\\",
+              type: \\"Link\\"
+            }
+          }
+        };
+      }"
+    `)
   })
 })

@@ -2,6 +2,7 @@ export default function renderInterface(
   name: string,
   fields: string,
   description?: string,
+  contents?: string,
 ): string {
   return `
     export interface ${name}Fields {
@@ -9,7 +10,9 @@ export default function renderInterface(
     };
 
     ${descriptionComment(description)}
-    export interface ${name} extends Entry<${name}Fields> {};
+    export interface ${name} extends Entry<${name}Fields> {
+      ${contents || ""}
+    };
   `
 }
 
