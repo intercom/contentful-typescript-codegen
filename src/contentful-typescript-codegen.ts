@@ -46,6 +46,7 @@ async function runCodegen(outputFile: string) {
   const locales = await environment.getLocales()
   const output = await render(contentTypes.items, locales.items)
   const outputPath = path.resolve(process.cwd(), outputFile)
+
   outputFileSync(outputPath, output)
 }
 
