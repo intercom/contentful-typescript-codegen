@@ -45,7 +45,6 @@ async function runCodegen(outputFile: string) {
   const contentTypes = await environment.getContentTypes({ limit: 1000 })
   const locales = await environment.getLocales()
   const output = await render(contentTypes.items, locales.items)
-
   const outputPath = path.resolve(process.cwd(), outputFile)
   outputFileSync(outputPath, output)
 }
