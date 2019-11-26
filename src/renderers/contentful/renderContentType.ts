@@ -13,13 +13,25 @@ import renderObject from "./fields/renderObject"
 import renderRichText from "./fields/renderRichText"
 import renderSymbol from "./fields/renderSymbol"
 
-export default function renderContentType(contentType: ContentType) {
-  return renderInterface(
-    renderContentTypeId(contentType.sys.id),
-    renderContentTypeFields(contentType.fields),
-    contentType.description,
-    renderSys(contentType.sys),
-  )
+export default function renderContentType(contentType: ContentType): string {
+  const name = renderContentTypeId(contentType.sys.id)
+  const fields = renderContentTypeFields(contentType.fields)
+  const sys = renderSys(contentType.sys)
+
+  return `
+    ${renderInterface({ name: `${name}Fields`, fields })}
+
+    ${descriptionComment(contentType.description)}
+    ${renderInterface({ name, extension: `Entry<${name}Fields>`, fields: sys })}
+  `
+}
+
+function descriptionComment(description: string | undefined) {
+  if (description) {
+    return `/** ${description} */`
+  }
+
+  return ""
 }
 
 function renderContentTypeFields(fields: Field[]): string {

@@ -1,25 +1,18 @@
-export default function renderInterface(
-  name: string,
-  fields: string,
-  description?: string,
-  contents?: string,
-): string {
+export default function renderInterface({
+  name,
+  extension,
+  fields,
+  description,
+}: {
+  name: string
+  extension?: string
+  fields: string
+  description?: string
+}) {
   return `
-    export interface ${name}Fields {
+    ${description ? `/** ${description} */` : ""}
+    export interface ${name} ${extension ? `extends ${extension}` : ""} {
       ${fields}
-    };
-
-    ${descriptionComment(description)}
-    export interface ${name} extends Entry<${name}Fields> {
-      ${contents || ""}
-    };
+    }
   `
-}
-
-function descriptionComment(description: string | undefined) {
-  if (description) {
-    return `/** ${description} */`
-  }
-
-  return ""
 }

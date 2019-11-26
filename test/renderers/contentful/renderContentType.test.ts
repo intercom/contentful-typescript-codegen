@@ -2,7 +2,7 @@ import renderContentType from "../../../src/renderers/contentful/renderContentTy
 import { ContentType, Sys } from "contentful"
 import format from "../../support/format"
 
-describe("renderSymbol()", () => {
+describe("renderContentType()", () => {
   const contentType: ContentType = {
     sys: {
       id: "myContentType",
@@ -43,15 +43,51 @@ describe("renderSymbol()", () => {
     toPlainObject: () => ({} as ContentType),
   }
 
+  const contentTypeWithDescription: ContentType = {
+    sys: {
+      id: "myContentType",
+    } as Sys,
+    fields: [],
+    description: "This is a description",
+    displayField: "",
+    name: "",
+    toPlainObject: () => ({} as ContentType),
+  }
+
   it("works with miscellaneous field types", () => {
     expect(format(renderContentType(contentType))).toMatchInlineSnapshot(`
-      "export interface IMyContentTypeFields {
-        /** Symbol Field™ */
-        symbolField?: string | undefined;
+            "export interface IMyContentTypeFields {
+              /** Symbol Field™ */
+              symbolField?: string | undefined;
 
-        /** Array field */
-        arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
-      }
+              /** Array field */
+              arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
+            }
+
+            export interface IMyContentType extends Entry<IMyContentTypeFields> {
+              sys: {
+                id: string,
+                type: string,
+                createdAt: string,
+                updatedAt: string,
+                locale: string,
+                contentType: {
+                  sys: {
+                    id: \\"myContentType\\",
+                    linkType: \\"ContentType\\",
+                    type: \\"Link\\"
+                  }
+                }
+              };
+            }"
+        `)
+  })
+
+  it("supports descriptions", () => {
+    expect(format(renderContentType(contentTypeWithDescription))).toMatchInlineSnapshot(`
+      "export interface IMyContentTypeFields {}
+
+      /** This is a description */
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {
         sys: {
