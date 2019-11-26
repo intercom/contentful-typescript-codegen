@@ -22,6 +22,7 @@
     "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
+    "test:ci": "jest --coverage --max-workers=2 --ci",
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "test:watch": "jest --coverage --watch",
     "semantic-release": "semantic-release"
