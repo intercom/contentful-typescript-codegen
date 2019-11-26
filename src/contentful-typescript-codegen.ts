@@ -7,10 +7,10 @@ const meow = require("meow")
 
 const cli = meow(
   `
-	Usage
-	  $ contentful-typescript-codegen --output <file> <options>
+  Usage
+    $ contentful-typescript-codegen --output <file> <options>
 
-	Options
+  Options
     --output,      -o  Where to write to
     --poll,        -p  Continuously refresh types
     --interval N,  -i  The interval in seconds at which to poll (defaults to 15)
@@ -19,8 +19,8 @@ const cli = meow(
                        Assets, or Rich Text. This is useful for ensuring raw
                        Contentful responses will be compatible with your code.
 
-	Examples
-	  $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts
+  Examples
+    $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts
 `,
   {
     flags: {
