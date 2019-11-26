@@ -11,7 +11,7 @@ const cli = meow(
 	  $ contentful-typescript-codegen --output <file> <options>
 
 	Options
-	  --output,      -o  Where to write to
+    --output,      -o  Where to write to
     --poll,        -p  Continuously refresh types
     --interval N,  -i  The interval in seconds at which to poll (defaults to 15)
     --fields-only      Output a tree that _only_ ensures fields are valid
