@@ -1,4 +1,5 @@
 import render from "./renderers/render"
+import renderFieldsOnly from "./renderers/renderFieldsOnly"
 import path from "path"
 import { outputFileSync } from "fs-extra"
 
@@ -13,6 +14,10 @@ const cli = meow(
 	  --output,      -o  Where to write to
     --poll,        -p  Continuously refresh types
     --interval N,  -i  The interval in seconds at which to poll (defaults to 15)
+    --fields-only      Output a tree that _only_ ensures fields are valid
+                       and present, and does not provide types for Sys,
+                       Assets, or Rich Text. This is useful for ensuring raw
+                       Contentful responses will be compatible with your code.
 
 	Examples
 	  $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts
@@ -23,6 +28,10 @@ const cli = meow(
         type: "string",
         alias: "o",
         required: true,
+      },
+      fieldsOnly: {
+        type: "boolean",
+        required: false,
       },
       poll: {
         type: "boolean",
@@ -44,8 +53,14 @@ async function runCodegen(outputFile: string) {
   const environment = await getEnvironment()
   const contentTypes = await environment.getContentTypes({ limit: 1000 })
   const locales = await environment.getLocales()
-  const output = await render(contentTypes.items, locales.items)
   const outputPath = path.resolve(process.cwd(), outputFile)
+
+  let output
+  if (cli.flags.fieldsOnly) {
+    output = await renderFieldsOnly(contentTypes.items)
+  } else {
+    output = await render(contentTypes.items, locales.items)
+  }
 
   outputFileSync(outputPath, output)
 }
