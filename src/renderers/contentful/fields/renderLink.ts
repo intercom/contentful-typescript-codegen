@@ -4,7 +4,7 @@ import { renderUnionValues } from "../../typescript/renderUnion"
 
 export default function renderLink(field: Field): string {
   if (field.linkType === "Asset") {
-    return "Asset"
+    return "PatchedAsset"
   }
 
   if (field.linkType === "Entry") {
@@ -13,7 +13,7 @@ export default function renderLink(field: Field): string {
     if (contentTypeValidation) {
       return renderUnionValues(contentTypeValidation.linkContentType!.map(renderContentTypeId))
     } else {
-      return "Entry<{ [fieldId: string]: unknown }>"
+      return "PatchedEntry<{ [fieldId: string]: unknown }, string>"
     }
   }
 

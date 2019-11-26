@@ -15,6 +15,8 @@ describe("renderRichText()", () => {
   }
 
   it("works", () => {
-    expect(renderRichText(simpleRichText).trim()).toMatchInlineSnapshot(`"Document"`)
+    expect(
+      renderRichText(simpleRichText, { compatibleWithRealResponses: false }).trim(),
+    ).toMatchInlineSnapshot(`"Document"`)
   })
 })

@@ -16,7 +16,7 @@ describe("renderLink()", () => {
     }
 
     expect(renderLink(simpleEntryLink)).toMatchInlineSnapshot(
-      `"Entry<{ [fieldId: string]: unknown }>"`,
+      `"PatchedEntry<{ [fieldId: string]: unknown }, string>"`,
     )
   })
 
@@ -49,7 +49,7 @@ describe("renderLink()", () => {
       omitted: false,
     }
 
-    expect(renderLink(assetLink)).toMatchInlineSnapshot(`"Asset"`)
+    expect(renderLink(assetLink)).toMatchInlineSnapshot(`"PatchedAsset"`)
   })
 
   it("handles mysteries", () => {

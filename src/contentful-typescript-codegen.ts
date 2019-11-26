@@ -13,6 +13,7 @@ const cli = meow(
 	  --output,      -o  Where to write to
     --poll,        -p  Continuously refresh types
     --interval N,  -i  The interval in seconds at which to poll (defaults to 15)
+    --compatible       Outputs looser types that are compatible with real Contentful API responses (which has some unexpected behavior not matching Contentful's built-in types)
 
 	Examples
 	  $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts
@@ -34,6 +35,10 @@ const cli = meow(
         alias: "i",
         required: false,
       },
+      compatible: {
+        type: "string",
+        required: false,
+      },
     },
   },
 )
@@ -44,7 +49,9 @@ async function runCodegen(outputFile: string) {
   const environment = await getEnvironment()
   const contentTypes = await environment.getContentTypes({ limit: 1000 })
   const locales = await environment.getLocales()
-  const output = await render(contentTypes.items, locales.items)
+  const output = await render(contentTypes.items, locales.items, {
+    compatibleWithRealResponses: cli.flags.compatible,
+  })
   const outputPath = path.resolve(process.cwd(), outputFile)
 
   outputFileSync(outputPath, output)

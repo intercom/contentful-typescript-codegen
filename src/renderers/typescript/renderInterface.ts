@@ -1,4 +1,5 @@
 export default function renderInterface(
+  id: string,
   name: string,
   fields: string,
   description?: string,
@@ -10,7 +11,7 @@ export default function renderInterface(
     };
 
     ${descriptionComment(description)}
-    export interface ${name} extends Entry<${name}Fields> {
+    export interface ${name} extends PatchedEntry<${name}Fields, '${id}'> {
       ${contents || ""}
     };
   `

@@ -44,7 +44,8 @@ describe("renderSymbol()", () => {
   }
 
   it("works with miscellaneous field types", () => {
-    expect(format(renderContentType(contentType))).toMatchInlineSnapshot(`
+    expect(format(renderContentType(contentType, { compatibleWithRealResponses: false })))
+      .toMatchInlineSnapshot(`
       "export interface IMyContentTypeFields {
         /** Symbol Field™ */
         symbolField?: string | undefined;
@@ -53,22 +54,8 @@ describe("renderSymbol()", () => {
         arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
       }
 
-      export interface IMyContentType extends Entry<IMyContentTypeFields> {
-        sys: {
-          id: string,
-          type: string,
-          createdAt: string,
-          updatedAt: string,
-          locale: string,
-          contentType: {
-            sys: {
-              id: \\"myContentType\\",
-              linkType: \\"ContentType\\",
-              type: \\"Link\\"
-            }
-          }
-        };
-      }"
+      export interface IMyContentType
+        extends PatchedEntry<IMyContentTypeFields, \\"myContentType\\"> {}"
     `)
   })
 })

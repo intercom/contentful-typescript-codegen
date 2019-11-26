@@ -13,20 +13,21 @@ import renderObject from "./fields/renderObject"
 import renderRichText from "./fields/renderRichText"
 import renderSymbol from "./fields/renderSymbol"
 
-export default function renderContentType(contentType: ContentType) {
+export default function renderContentType(contentType: ContentType, options: RenderingOptions) {
   return renderInterface(
+    contentType.sys.id,
     renderContentTypeId(contentType.sys.id),
-    renderContentTypeFields(contentType.fields),
+    renderContentTypeFields(contentType.fields, options),
     contentType.description,
     renderSys(contentType.sys),
   )
 }
 
-function renderContentTypeFields(fields: Field[]): string {
+function renderContentTypeFields(fields: Field[], options: RenderingOptions): string {
   return fields
     .filter(field => !field.omitted)
     .map<string>(field => {
-      const functionMap: Record<FieldType, (field: Field) => string> = {
+      const functionMap: Record<FieldType, (field: Field, options: RenderingOptions) => string> = {
         Array: renderArray,
         Boolean: renderBoolean,
         Date: renderSymbol,
@@ -40,26 +41,11 @@ function renderContentTypeFields(fields: Field[]): string {
         Text: renderSymbol,
       }
 
-      return renderField(field, functionMap[field.type](field))
+      return renderField(field, functionMap[field.type](field, options))
     })
     .join("\n\n")
 }
 
 function renderSys(sys: Sys) {
-  return `
-    sys: {
-      id: string;
-      type: string;
-      createdAt: string;
-      updatedAt: string;
-      locale: string;
-      contentType: {
-        sys: {
-          id: '${sys.id}';
-          linkType: 'ContentType';
-          type: 'Link';
-        }
-      }
-    }
-  `
+  return ``
 }
