@@ -67,6 +67,7 @@ async function runCodegen(outputFile: string) {
 
 runCodegen(cli.flags.output).catch(error => {
   console.error(error)
+  process.exit(1)
 })
 
 if (cli.flags.poll) {
