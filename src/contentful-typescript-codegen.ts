@@ -2,6 +2,7 @@ import render from "./renderers/render"
 import renderFieldsOnly from "./renderers/renderFieldsOnly"
 import path from "path"
 import { outputFileSync } from "fs-extra"
+import renderPropsOnly from "./renderers/renderPropsOnly"
 
 const meow = require("meow")
 
@@ -18,6 +19,10 @@ const cli = meow(
                        and present, and does not provide types for Sys,
                        Assets, or Rich Text. This is useful for ensuring raw
                        Contentful responses will be compatible with your code.
+    --props-only       Output only the interfaces for the plain object
+                       properties of your Contentful models. This is useful when
+                       adding type information to GraphQL responses, e.g. when
+                       using Contentful with Gatsby.
 
   Examples
     $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts
@@ -36,6 +41,10 @@ const cli = meow(
       poll: {
         type: "boolean",
         alias: "p",
+        required: false,
+      },
+      propsOnly: {
+        type: "boolean",
         required: false,
       },
       interval: {
@@ -58,6 +67,8 @@ async function runCodegen(outputFile: string) {
   let output
   if (cli.flags.fieldsOnly) {
     output = await renderFieldsOnly(contentTypes.items)
+  } else if (cli.flags.propsOnly) {
+    output = await renderPropsOnly(contentTypes.items)
   } else {
     output = await render(contentTypes.items, locales.items)
   }

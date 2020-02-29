@@ -27,7 +27,7 @@ export default function renderContentType(contentType: ContentType): string {
   })
 }
 
-function renderContentTypeFields(fields: Field[]): string {
+export function renderContentTypeFields(fields: Field[]): string {
   return fields
     .filter(field => !field.omitted)
     .map<string>(field => {
