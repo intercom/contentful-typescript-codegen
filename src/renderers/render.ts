@@ -12,17 +12,15 @@ export default async function render(contentTypes: ContentType[], locales: Local
   const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
   const sortedLocales = locales.sort((a, b) => a.code.localeCompare(b.code))
 
-  let source = [
+  const source = [
+    namespace && `declare namespace ${namespace} {`,
     renderContentfulImports(),
     renderAllContentTypes(sortedContentTypes),
     renderAllContentTypeIds(sortedContentTypes),
     renderAllLocales(sortedLocales),
     renderDefaultLocale(sortedLocales),
-  ].join("\n\n")
-
-  if (namespace) {
-    source = `declare namespace ${namespace} {\n${source}\n}\nexport as namespace ${namespace};\nexport=${namespace};`
-  }
+    namespace && `}\nexport as namespace ${namespace}\nexport=${namespace}`
+  ].filter(Boolean).join("\n\n")
 
   const prettierConfig = await resolveConfig(process.cwd())
   return format(source, { ...prettierConfig, parser: "typescript" })
