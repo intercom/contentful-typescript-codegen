@@ -4,7 +4,7 @@ import format from "../../support/format"
 describe("renderUnion()", () => {
   it("renders a union", () => {
     expect(format(renderUnion("name", ["1", "2", "3"]))).toMatchInlineSnapshot(
-      `"type name = 1 | 2 | 3;"`,
+      `"export type name = 1 | 2 | 3;"`,
     )
   })
 })
