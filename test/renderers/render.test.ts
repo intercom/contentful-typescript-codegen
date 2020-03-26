@@ -80,11 +80,11 @@ describe("render()", () => {
         }
       }
 
-      type CONTENT_TYPE = \\"myContentType\\"
+      export type CONTENT_TYPE = \\"myContentType\\"
 
-      type LOCALE_CODE = \\"en-US\\" | \\"pt-BR\\"
+      export type LOCALE_CODE = \\"en-US\\" | \\"pt-BR\\"
 
-      type CONTENTFUL_DEFAULT_LOCALE_CODE = \\"en-US\\"
+      export type CONTENTFUL_DEFAULT_LOCALE_CODE = \\"en-US\\"
       "
     `)
   })
