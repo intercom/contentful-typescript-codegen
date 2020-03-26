@@ -1,6 +1,6 @@
 export default function renderUnion(name: string, values: string[]): string {
   return `
-    type ${name} = ${renderUnionValues(values)};
+    export type ${name} = ${renderUnionValues(values)};
   `
 }
 
