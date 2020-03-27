@@ -22,7 +22,7 @@ describe("renderSymbol()", () => {
 
   it("works with a list of locales", () => {
     expect(format(renderDefaultLocale(locales))).toMatchInlineSnapshot(
-      `"export type CONTENTFUL_DEFAULT_LOCALE_CODE = \\"en-US\\";"`,
+      `"type CONTENTFUL_DEFAULT_LOCALE_CODE = \\"en-US\\";"`,
     )
   })
 
