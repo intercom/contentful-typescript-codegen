@@ -8,17 +8,22 @@ import renderUnion from "./typescript/renderUnion"
 import renderAllLocales from "./contentful/renderAllLocales"
 import renderDefaultLocale from "./contentful/renderDefaultLocale"
 
-export default async function render(contentTypes: ContentType[], locales: Locale[], namespace: string | null) {
+export default async function render(
+  contentTypes: ContentType[],
+  locales: Locale[],
+  namespace: string | null,
+) {
   const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
   const sortedLocales = locales.sort((a, b) => a.code.localeCompare(b.code))
 
-  const source = wrapInNamespace([
-    renderContentfulImports(),
+  const typings = [
     renderAllContentTypes(sortedContentTypes),
     renderAllContentTypeIds(sortedContentTypes),
     renderAllLocales(sortedLocales),
     renderDefaultLocale(sortedLocales),
-  ].join("\n\n"), namespace)
+  ].join("\n\n")
+
+  const source = [renderContentfulImports(), wrapInNamespace(typings, namespace)].join("\n\n")
 
   const prettierConfig = await resolveConfig(process.cwd())
   return format(source, { ...prettierConfig, parser: "typescript" })

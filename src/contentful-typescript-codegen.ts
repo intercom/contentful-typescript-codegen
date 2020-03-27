@@ -48,7 +48,7 @@ const cli = meow(
         type: "string",
         alias: "n",
         required: false,
-      }
+      },
     },
   },
 )
