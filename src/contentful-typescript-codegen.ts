@@ -14,7 +14,7 @@ const cli = meow(
     --output,      -o  Where to write to
     --poll,        -p  Continuously refresh types
     --interval N,  -i  The interval in seconds at which to poll (defaults to 15)
-    --namespace N, -n Wrap types in namespace (disabled by default)
+    --namespace N, -n  Wrap types in namespace N (disabled by default)
     --fields-only      Output a tree that _only_ ensures fields are valid
                        and present, and does not provide types for Sys,
                        Assets, or Rich Text. This is useful for ensuring raw

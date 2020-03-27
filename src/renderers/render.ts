@@ -12,15 +12,13 @@ export default async function render(contentTypes: ContentType[], locales: Local
   const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
   const sortedLocales = locales.sort((a, b) => a.code.localeCompare(b.code))
 
-  const source = [
-    namespace && `declare namespace ${namespace} {`,
+  const source = wrapInNamespace([
     renderContentfulImports(),
     renderAllContentTypes(sortedContentTypes),
     renderAllContentTypeIds(sortedContentTypes),
     renderAllLocales(sortedLocales),
     renderDefaultLocale(sortedLocales),
-    namespace && `}\nexport as namespace ${namespace}\nexport=${namespace}`
-  ].filter(Boolean).join("\n\n")
+  ].join("\n\n"), namespace)
 
   const prettierConfig = await resolveConfig(process.cwd())
   return format(source, { ...prettierConfig, parser: "typescript" })
@@ -32,4 +30,17 @@ function renderAllContentTypes(contentTypes: ContentType[]): string {
 
 function renderAllContentTypeIds(contentTypes: ContentType[]): string {
   return renderUnion("CONTENT_TYPE", contentTypes.map(contentType => `'${contentType.sys.id}'`))
+}
+
+function wrapInNamespace(source: string, namespace: string | null) {
+  if (!namespace) return source
+
+  return `
+    declare namespace ${namespace} {
+    ${source}
+    }
+
+    export as namespace ${namespace}
+    export=${namespace}
+  `
 }
