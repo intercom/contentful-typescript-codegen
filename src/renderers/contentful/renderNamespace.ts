@@ -1,4 +1,4 @@
-export default function renderNamespace(source: string, namespace: string | null) {
+export default function renderNamespace(source: string, namespace: string | undefined) {
   if (!namespace) return source
 
   return `

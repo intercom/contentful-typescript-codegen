@@ -35,7 +35,7 @@ describe("renderFieldsOnly()", () => {
       },
     ]
 
-    expect(await renderFieldsOnly(contentTypes, null)).toMatchInlineSnapshot(`
+    expect(await renderFieldsOnly(contentTypes)).toMatchInlineSnapshot(`
       "export interface IMyContentType {
         fields: {
           /** Array field */
@@ -46,7 +46,7 @@ describe("renderFieldsOnly()", () => {
       "
     `)
 
-    expect(await renderFieldsOnly(contentTypes, "Codegen")).toMatchInlineSnapshot(`
+    expect(await renderFieldsOnly(contentTypes, { namespace: "Codegen" })).toMatchInlineSnapshot(`
       "declare namespace Codegen {
         export interface IMyContentType {
           fields: {

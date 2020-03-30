@@ -9,10 +9,14 @@ import renderAllLocales from "./contentful/renderAllLocales"
 import renderDefaultLocale from "./contentful/renderDefaultLocale"
 import renderNamespace from "./contentful/renderNamespace"
 
+interface Options {
+  namespace?: string
+}
+
 export default async function render(
   contentTypes: ContentType[],
   locales: Locale[],
-  namespace: string | null,
+  { namespace }: Options = {},
 ) {
   const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
   const sortedLocales = locales.sort((a, b) => a.code.localeCompare(b.code))
@@ -37,4 +41,3 @@ function renderAllContentTypes(contentTypes: ContentType[]): string {
 function renderAllContentTypeIds(contentTypes: ContentType[]): string {
   return renderUnion("CONTENT_TYPE", contentTypes.map(contentType => `'${contentType.sys.id}'`))
 }
-

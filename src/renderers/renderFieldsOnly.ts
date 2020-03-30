@@ -5,8 +5,14 @@ import { format, resolveConfig } from "prettier"
 import renderContentType from "./contentful-fields-only/renderContentType"
 import renderNamespace from "./contentful/renderNamespace"
 
-export default async function renderFieldsOnly(contentTypes: ContentType[],
-                                               namespace: string | null,) {
+interface Options {
+  namespace?: string
+}
+
+export default async function renderFieldsOnly(
+  contentTypes: ContentType[],
+  { namespace }: Options = {},
+) {
   const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
 
   const typingsSource = renderAllContentTypes(sortedContentTypes)
