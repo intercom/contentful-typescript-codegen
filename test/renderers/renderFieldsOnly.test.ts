@@ -35,7 +35,7 @@ describe("renderFieldsOnly()", () => {
       },
     ]
 
-    expect(await renderFieldsOnly(contentTypes)).toMatchInlineSnapshot(`
+    expect(await renderFieldsOnly(contentTypes, null)).toMatchInlineSnapshot(`
       "export interface IMyContentType {
         fields: {
           /** Array field */
@@ -46,20 +46,20 @@ describe("renderFieldsOnly()", () => {
       "
     `)
 
-    // expect(await renderFieldsOnly(contentTypes, "Codegen")).toMatchInlineSnapshot(`
-    //   "declare namespace Codegen {
-    //     export interface IMyContentType {
-    //       fields: {
-    //         /** Array field */
-    //         arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
-    //       };
-    //       [otherKeys: string]: any;
-    //     }
-    //   }
-    //
-    //   export as namespace Codegen
-    //   export = Codegen
-    //   "
-    // `)
+    expect(await renderFieldsOnly(contentTypes, "Codegen")).toMatchInlineSnapshot(`
+      "declare namespace Codegen {
+        export interface IMyContentType {
+          fields: {
+            /** Array field */
+            arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
+          }
+          [otherKeys: string]: any
+        }
+      }
+
+      export as namespace Codegen
+      export = Codegen
+      "
+    `)
   })
 })
