@@ -20,4 +20,10 @@ describe("renderInterfaceProperty()", () => {
 property?: type | undefined;"
 `)
   })
+
+  it("supports localized fields", () => {
+    expect(renderInterfaceProperty("property", "type", false, true).trim()).toMatchInlineSnapshot(
+      `"property?: Record<CONTENT_TYPE, type> | undefined;"`,
+    )
+  })
 })
