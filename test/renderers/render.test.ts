@@ -130,7 +130,7 @@ describe("render()", () => {
 
       export interface IMyContentTypeFields {
         /** Array field */
-        arrayField: Record<CONTENT_TYPE, (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>
+        arrayField: Record<LOCALE_CODE, (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>
       }
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {

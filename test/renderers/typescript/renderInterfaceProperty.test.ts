@@ -23,7 +23,7 @@ property?: type | undefined;"
 
   it("supports localized fields", () => {
     expect(renderInterfaceProperty("property", "type", false, true).trim()).toMatchInlineSnapshot(
-      `"property?: Record<CONTENT_TYPE, type> | undefined;"`,
+      `"property?: Record<LOCALE_CODE, type> | undefined;"`,
     )
   })
 })

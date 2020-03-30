@@ -10,7 +10,7 @@ export default function renderInterfaceProperty(
     name,
     required ? "" : "?",
     ": ",
-    localization ? `Record<CONTENT_TYPE, ${type}>` : type,
+    localization ? `Record<LOCALE_CODE, ${type}>` : type,
     required ? "" : " | undefined",
     ";",
   ].join("")
