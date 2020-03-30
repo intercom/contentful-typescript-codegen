@@ -6,11 +6,5 @@ export default function renderField(
   type: string,
   localization: boolean = false,
 ): string {
-  return renderInterfaceProperty(
-    field.id,
-    type,
-    field.required,
-    field.localized && localization,
-    field.name,
-  )
+  return renderInterfaceProperty(field.id, type, field.required, localization, field.name)
 }
