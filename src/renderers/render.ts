@@ -21,7 +21,7 @@ export default async function render(
   const sortedLocales = locales.sort((a, b) => a.code.localeCompare(b.code))
 
   const source = [
-    renderContentfulImports(),
+    renderContentfulImports(localization),
     renderAllContentTypes(sortedContentTypes, localization),
     renderAllContentTypeIds(sortedContentTypes),
     renderAllLocales(sortedLocales),
