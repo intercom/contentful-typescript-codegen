@@ -16,14 +16,14 @@ describe("renderInterfaceProperty()", () => {
   it("adds descriptions", () => {
     expect(renderInterfaceProperty("property", "type", false, false, "Description").trim())
       .toMatchInlineSnapshot(`
-"/** Description */
-property?: type | undefined;"
-`)
+      "/** Description */
+      property?: type | undefined;"
+    `)
   })
 
   it("supports localized fields", () => {
     expect(renderInterfaceProperty("property", "type", false, true).trim()).toMatchInlineSnapshot(
-      `"property?: Record<LOCALE_CODE, type> | undefined;"`,
+      `"property?: LocalizedField<type> | undefined;"`,
     )
   })
 })

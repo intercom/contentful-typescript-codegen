@@ -7,6 +7,7 @@ import renderContentType from "./contentful/renderContentType"
 import renderUnion from "./typescript/renderUnion"
 import renderAllLocales from "./contentful/renderAllLocales"
 import renderDefaultLocale from "./contentful/renderDefaultLocale"
+import renderLocalizedTypes from "./contentful/renderLocalizedTypes"
 
 interface Options {
   localization?: boolean
@@ -26,6 +27,7 @@ export default async function render(
     renderAllContentTypeIds(sortedContentTypes),
     renderAllLocales(sortedLocales),
     renderDefaultLocale(sortedLocales),
+    renderLocalizedTypes(localization),
   ].join("\n\n")
 
   const prettierConfig = await resolveConfig(process.cwd())

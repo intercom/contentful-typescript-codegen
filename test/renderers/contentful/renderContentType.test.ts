@@ -110,30 +110,30 @@ describe("renderContentType()", () => {
 
   it("works with localized fields", () => {
     expect(format(renderContentType(contentType, true))).toMatchInlineSnapshot(`
-            "export interface IMyContentTypeFields {
-              /** Symbol Field™ */
-              symbolField?: Record<LOCALE_CODE, string> | undefined;
+      "export interface IMyContentTypeFields {
+        /** Symbol Field™ */
+        symbolField?: LocalizedField<string> | undefined;
 
-              /** Array field */
-              arrayField: Record<LOCALE_CODE, (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>;
+        /** Array field */
+        arrayField: LocalizedField<(\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>;
+      }
+
+      export interface IMyContentType extends Entry<IMyContentTypeFields> {
+        sys: {
+          id: string,
+          type: string,
+          createdAt: string,
+          updatedAt: string,
+          locale: string,
+          contentType: {
+            sys: {
+              id: \\"myContentType\\",
+              linkType: \\"ContentType\\",
+              type: \\"Link\\"
             }
-
-            export interface IMyContentType extends Entry<IMyContentTypeFields> {
-              sys: {
-                id: string,
-                type: string,
-                createdAt: string,
-                updatedAt: string,
-                locale: string,
-                contentType: {
-                  sys: {
-                    id: \\"myContentType\\",
-                    linkType: \\"ContentType\\",
-                    type: \\"Link\\"
-                  }
-                }
-              };
-            }"
-        `)
+          }
+        };
+      }"
+    `)
   })
 })

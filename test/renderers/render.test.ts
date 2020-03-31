@@ -128,31 +128,9 @@ describe("render()", () => {
       import { Entry } from \\"contentful\\"
       import { Document } from \\"@contentful/rich-text-types\\"
 
-      // We have to use our own localized version of Asset because of a bug in contentful https://github.com/contentful/contentful.js/issues/208
-      interface Asset {
-        sys: Sys
-        fields: {
-          title: string
-          description: string
-          file: {
-            url: string
-            details: {
-              size: number
-              image?: {
-                width: number
-                height: number
-              }
-            }
-            fileName: string
-            contentType: string
-          }
-        }
-        toPlainObject(): object
-      }
-
       export interface IMyContentTypeFields {
         /** Array field */
-        arrayField: Record<LOCALE_CODE, (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>
+        arrayField: LocalizedField<(\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>
       }
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {
@@ -177,6 +155,30 @@ describe("render()", () => {
       export type LOCALE_CODE = \\"en-US\\" | \\"pt-BR\\"
 
       export type CONTENTFUL_DEFAULT_LOCALE_CODE = \\"en-US\\"
+
+      export type LocalizedField<T> = Partial<Record<LOCALE_CODE, T>>
+
+      // We have to use our own localized version of Asset because of a bug in contentful https://github.com/contentful/contentful.js/issues/208
+      export interface Asset {
+        sys: Sys
+        fields: {
+          title: LocalizedField<string>
+          description: LocalizedField<string>
+          file: LocalizedField<{
+            url: string
+            details: {
+              size: number
+              image?: {
+                width: number
+                height: number
+              }
+            }
+            fileName: string
+            contentType: string
+          }>
+        }
+        toPlainObject(): object
+      }
       "
     `)
   })
