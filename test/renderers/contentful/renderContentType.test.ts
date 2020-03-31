@@ -15,7 +15,7 @@ describe("renderContentType()", () => {
         validations: [],
         disabled: false,
         omitted: false,
-        localized: true,
+        localized: false,
         type: "Symbol",
       },
       {
@@ -33,7 +33,7 @@ describe("renderContentType()", () => {
         },
         disabled: false,
         omitted: false,
-        localized: true,
+        localized: false,
         type: "Array",
       },
     ],
