@@ -1,6 +1,6 @@
 import { ContentType } from "contentful"
 
-import { format, resolveConfig } from "prettier"
+import { format } from "prettier"
 
 import renderContentType from "./contentful-fields-only/renderContentType"
 import renderNamespace from "./contentful/renderNamespace"
@@ -18,9 +18,7 @@ export default async function renderFieldsOnly(
   const typingsSource = renderAllContentTypes(sortedContentTypes)
   const source = [renderNamespace(typingsSource, namespace)].join("\n\n")
 
-  const prettierConfig = await resolveConfig(process.cwd())
-
-  return format(source, { ...prettierConfig, parser: "typescript" })
+  return format(source, { parser: "typescript" })
 }
 
 function renderAllContentTypes(contentTypes: ContentType[]): string {

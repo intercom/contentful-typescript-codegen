@@ -39,9 +39,9 @@ describe("renderFieldsOnly()", () => {
       "export interface IMyContentType {
         fields: {
           /** Array field */
-          arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
-        }
-        [otherKeys: string]: any
+          arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
+        };
+        [otherKeys: string]: any;
       }
       "
     `)
