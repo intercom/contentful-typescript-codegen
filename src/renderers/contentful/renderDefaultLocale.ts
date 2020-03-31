@@ -7,5 +7,5 @@ export default function renderDefaultLocale(locales: Locale[]): string {
     throw new Error("Could not find a default locale in Contentful.")
   }
 
-  return `type CONTENTFUL_DEFAULT_LOCALE_CODE = '${defaultLocale.code}';`
+  return `export type CONTENTFUL_DEFAULT_LOCALE_CODE = '${defaultLocale.code}';`
 }
