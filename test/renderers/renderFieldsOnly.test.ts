@@ -53,14 +53,14 @@ describe("renderFieldsOnly()", () => {
         export interface IMyContentType {
           fields: {
             /** Array field */
-            arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
-          }
-          [otherKeys: string]: any
+            arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
+          };
+          [otherKeys: string]: any;
         }
       }
 
-      export as namespace Codegen
-      export = Codegen
+      export as namespace Codegen;
+      export = Codegen;
       "
     `)
   })
