@@ -24,7 +24,6 @@ export default async function render(
   const sortedLocales = locales.sort((a, b) => a.code.localeCompare(b.code))
 
   const typingsSource = [
-    renderContentfulImports(localization),
     renderAllContentTypes(sortedContentTypes, localization),
     renderAllContentTypeIds(sortedContentTypes),
     renderAllLocales(sortedLocales),
@@ -32,7 +31,10 @@ export default async function render(
     renderLocalizedTypes(localization),
   ].join("\n\n")
 
-  const source = [renderContentfulImports(), renderNamespace(typingsSource, namespace)].join("\n\n")
+  const source = [
+    renderContentfulImports(localization),
+    renderNamespace(typingsSource, namespace),
+  ].join("\n\n")
 
   const prettierConfig = await resolveConfig(process.cwd())
   return format(source, { ...prettierConfig, parser: "typescript" })
