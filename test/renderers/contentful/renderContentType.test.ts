@@ -55,7 +55,7 @@ describe("renderContentType()", () => {
   }
 
   it("works with miscellaneous field types", () => {
-    expect(format(renderContentType(contentType))).toMatchInlineSnapshot(`
+    expect(format(renderContentType(contentType, false))).toMatchInlineSnapshot(`
             "export interface IMyContentTypeFields {
               /** Symbol Field™ */
               symbolField?: string | undefined;
@@ -84,10 +84,39 @@ describe("renderContentType()", () => {
   })
 
   it("supports descriptions", () => {
-    expect(format(renderContentType(contentTypeWithDescription))).toMatchInlineSnapshot(`
+    expect(format(renderContentType(contentTypeWithDescription, false))).toMatchInlineSnapshot(`
       "export interface IMyContentTypeFields {}
 
       /** This is a description */
+
+      export interface IMyContentType extends Entry<IMyContentTypeFields> {
+        sys: {
+          id: string,
+          type: string,
+          createdAt: string,
+          updatedAt: string,
+          locale: string,
+          contentType: {
+            sys: {
+              id: \\"myContentType\\",
+              linkType: \\"ContentType\\",
+              type: \\"Link\\"
+            }
+          }
+        };
+      }"
+    `)
+  })
+
+  it("works with localized fields", () => {
+    expect(format(renderContentType(contentType, true))).toMatchInlineSnapshot(`
+      "export interface IMyContentTypeFields {
+        /** Symbol Field™ */
+        symbolField?: LocalizedField<string> | undefined;
+
+        /** Array field */
+        arrayField: LocalizedField<(\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>;
+      }
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {
         sys: {

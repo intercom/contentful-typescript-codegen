@@ -13,9 +13,9 @@ import renderObject from "./fields/renderObject"
 import renderRichText from "./fields/renderRichText"
 import renderSymbol from "./fields/renderSymbol"
 
-export default function renderContentType(contentType: ContentType): string {
+export default function renderContentType(contentType: ContentType, localization: boolean): string {
   const name = renderContentTypeId(contentType.sys.id)
-  const fields = renderContentTypeFields(contentType.fields)
+  const fields = renderContentTypeFields(contentType.fields, localization)
   const sys = renderSys(contentType.sys)
 
   return `
@@ -34,7 +34,7 @@ function descriptionComment(description: string | undefined) {
   return ""
 }
 
-function renderContentTypeFields(fields: Field[]): string {
+function renderContentTypeFields(fields: Field[], localization: boolean): string {
   return fields
     .filter(field => !field.omitted)
     .map<string>(field => {
@@ -52,7 +52,7 @@ function renderContentTypeFields(fields: Field[]): string {
         Text: renderSymbol,
       }
 
-      return renderField(field, functionMap[field.type](field))
+      return renderField(field, functionMap[field.type](field), localization)
     })
     .join("\n\n")
 }
