@@ -36,15 +36,15 @@ describe("renderFieldsOnly()", () => {
 
   it("renders a given content type", async () => {
     expect(await renderFieldsOnly(contentTypes)).toMatchInlineSnapshot(`
-      "export interface IMyContentType {
-        fields: {
-          /** Array field */
-          arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
-        };
-        [otherKeys: string]: any;
-      }
-      "
-    `)
+            "export interface IMyContentType {
+              fields: {
+                /** Array field */
+                arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
+              }
+              [otherKeys: string]: any
+            }
+            "
+        `)
   })
 
   it("renders a given content type inside a namespace", async () => {
@@ -53,14 +53,14 @@ describe("renderFieldsOnly()", () => {
         export interface IMyContentType {
           fields: {
             /** Array field */
-            arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
-          };
-          [otherKeys: string]: any;
+            arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
+          }
+          [otherKeys: string]: any
         }
       }
 
-      export as namespace Codegen;
-      export = Codegen;
+      export as namespace Codegen
+      export = Codegen
       "
     `)
   })

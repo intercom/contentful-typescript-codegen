@@ -19,6 +19,7 @@ const cli = meow(
                        and present, and does not provide types for Sys,
                        Assets, or Rich Text. This is useful for ensuring raw
                        Contentful responses will be compatible with your code.
+    --localization -l  Output fields with localized values
 
   Examples
     $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts
@@ -49,6 +50,11 @@ const cli = meow(
         alias: "n",
         required: false,
       },
+      localization: {
+        type: "boolean",
+        alias: "l",
+        required: false,
+      },
     },
   },
 )
@@ -65,7 +71,10 @@ async function runCodegen(outputFile: string) {
   if (cli.flags.fieldsOnly) {
     output = await renderFieldsOnly(contentTypes.items, { namespace: cli.flags.namespace })
   } else {
-    output = await render(contentTypes.items, locales.items, { namespace: cli.flags.namespace })
+    output = await render(contentTypes.items, locales.items, {
+      localization: cli.flags.localization,
+      namespace: cli.flags.namespace,
+    })
   }
 
   outputFileSync(outputPath, output)
