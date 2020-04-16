@@ -7,21 +7,23 @@ import renderContentType from "./contentful/renderContentType"
 import renderUnion from "./typescript/renderUnion"
 import renderAllLocales from "./contentful/renderAllLocales"
 import renderDefaultLocale from "./contentful/renderDefaultLocale"
+import renderNamespace from "./contentful/renderNamespace"
 import renderLocalizedTypes from "./contentful/renderLocalizedTypes"
 
 interface Options {
   localization?: boolean
+  namespace?: string
 }
 
 export default async function render(
   contentTypes: ContentType[],
   locales: Locale[],
-  { localization = false }: Options = {},
+  { namespace, localization = false }: Options = {},
 ) {
   const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
   const sortedLocales = locales.sort((a, b) => a.code.localeCompare(b.code))
 
-  const source = [
+  const typingsSource = [
     renderContentfulImports(localization),
     renderAllContentTypes(sortedContentTypes, localization),
     renderAllContentTypeIds(sortedContentTypes),
@@ -29,6 +31,8 @@ export default async function render(
     renderDefaultLocale(sortedLocales),
     renderLocalizedTypes(localization),
   ].join("\n\n")
+
+  const source = [renderContentfulImports(), renderNamespace(typingsSource, namespace)].join("\n\n")
 
   const prettierConfig = await resolveConfig(process.cwd())
   return format(source, { ...prettierConfig, parser: "typescript" })
