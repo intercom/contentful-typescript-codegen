@@ -56,31 +56,32 @@ describe("renderContentType()", () => {
 
   it("works with miscellaneous field types", () => {
     expect(format(renderContentType(contentType, false))).toMatchInlineSnapshot(`
-            "export interface IMyContentTypeFields {
-              /** Symbol Field™ */
-              symbolField?: string | undefined;
+      "export interface IMyContentTypeFields {
+        /** Symbol Field™ */
+        symbolField?: string | undefined;
 
-              /** Array field */
-              arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
+        /** Array field */
+        arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
+      }
+
+      export interface IMyContentType extends Entry<IMyContentTypeFields> {
+        sys: {
+          id: string,
+          type: string,
+          createdAt: string,
+          updatedAt: string,
+          locale: string,
+          space: SpaceLink,
+          contentType: {
+            sys: {
+              id: \\"myContentType\\",
+              linkType: \\"ContentType\\",
+              type: \\"Link\\"
             }
-
-            export interface IMyContentType extends Entry<IMyContentTypeFields> {
-              sys: {
-                id: string,
-                type: string,
-                createdAt: string,
-                updatedAt: string,
-                locale: string,
-                contentType: {
-                  sys: {
-                    id: \\"myContentType\\",
-                    linkType: \\"ContentType\\",
-                    type: \\"Link\\"
-                  }
-                }
-              };
-            }"
-        `)
+          }
+        };
+      }"
+    `)
   })
 
   it("supports descriptions", () => {
@@ -96,6 +97,7 @@ describe("renderContentType()", () => {
           createdAt: string,
           updatedAt: string,
           locale: string,
+          space: SpaceLink,
           contentType: {
             sys: {
               id: \\"myContentType\\",
@@ -125,6 +127,7 @@ describe("renderContentType()", () => {
           createdAt: string,
           updatedAt: string,
           locale: string,
+          space: SpaceLink,
           contentType: {
             sys: {
               id: \\"myContentType\\",

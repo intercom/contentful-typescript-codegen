@@ -65,6 +65,9 @@ function renderSys(sys: Sys) {
       createdAt: string;
       updatedAt: string;
       locale: string;
+      space: {
+        sys: SpaceLink;
+      }
       contentType: {
         sys: {
           id: '${sys.id}';
