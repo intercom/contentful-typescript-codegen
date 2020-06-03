@@ -3,6 +3,7 @@ export default function renderInterfaceProperty(
   type: string,
   required: boolean,
   localization: boolean,
+  localized: boolean,
   description?: string,
 ): string {
   return [
@@ -10,10 +11,14 @@ export default function renderInterfaceProperty(
     name,
     required ? "" : "?",
     ": ",
-    localization ? `LocalizedField<${type}>` : type,
+    localization ? renderLocalizedField(localized, type) : type,
     required ? "" : " | undefined",
     ";",
   ].join("")
+}
+
+function renderLocalizedField(localized: boolean, type: string) {
+  return localized ? `LocalizedField<${type}>` : `DefaultLocalizedField<${type}>`
 }
 
 function descriptionComment(description: string | undefined) {

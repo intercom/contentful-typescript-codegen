@@ -19,6 +19,16 @@ describe("renderContentType()", () => {
         type: "Symbol",
       },
       {
+        id: "localizedSymbolField",
+        name: "Localized Symbol Field™",
+        required: true,
+        validations: [],
+        disabled: false,
+        omitted: false,
+        localized: true,
+        type: "Symbol",
+      },
+      {
         id: "arrayField",
         name: "Array field",
         required: true,
@@ -59,6 +69,9 @@ describe("renderContentType()", () => {
             "export interface IMyContentTypeFields {
               /** Symbol Field™ */
               symbolField?: string | undefined;
+
+              /** Localized Symbol Field™ */
+              localizedSymbolField: string;
 
               /** Array field */
               arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
@@ -112,10 +125,13 @@ describe("renderContentType()", () => {
     expect(format(renderContentType(contentType, true))).toMatchInlineSnapshot(`
       "export interface IMyContentTypeFields {
         /** Symbol Field™ */
-        symbolField?: LocalizedField<string> | undefined;
+        symbolField?: DefaultLocalizedField<string> | undefined;
+
+        /** Localized Symbol Field™ */
+        localizedSymbolField: LocalizedField<string>;
 
         /** Array field */
-        arrayField: LocalizedField<(\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>;
+        arrayField: DefaultLocalizedField<(\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>;
       }
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {
