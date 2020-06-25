@@ -1,5 +1,7 @@
 import { ContentType, Field, FieldType } from "contentful"
 
+import { Options } from "../renderFieldsOnly"
+
 import renderInterface from "../typescript/renderInterface"
 import renderField from "../contentful/renderField"
 import renderContentTypeId from "../contentful/renderContentTypeId"
@@ -14,9 +16,9 @@ import renderNumber from "../contentful/fields/renderNumber"
 import renderObject from "../contentful/fields/renderObject"
 import renderSymbol from "../contentful/fields/renderSymbol"
 
-export default function renderContentType(contentType: ContentType): string {
-  const name = renderContentTypeId(contentType.sys.id)
-  const fields = renderContentTypeFields(contentType.fields)
+export default function renderContentType(contentType: ContentType, options: Options = {}): string {
+  const name = renderContentTypeId(contentType.sys.id, options)
+  const fields = renderContentTypeFields(contentType.fields, options)
 
   return renderInterface({
     name,
@@ -27,11 +29,11 @@ export default function renderContentType(contentType: ContentType): string {
   })
 }
 
-function renderContentTypeFields(fields: Field[]): string {
+function renderContentTypeFields(fields: Field[], options: Options = {}): string {
   return fields
     .filter(field => !field.omitted)
     .map<string>(field => {
-      const functionMap: Record<FieldType, (field: Field) => string> = {
+      const functionMap: Record<FieldType, (field: Field, options: Options) => string> = {
         Array: renderArray,
         Boolean: renderBoolean,
         Date: renderSymbol,
@@ -45,7 +47,7 @@ function renderContentTypeFields(fields: Field[]): string {
         Text: renderSymbol,
       }
 
-      return renderField(field, functionMap[field.type](field))
+      return renderField(field, functionMap[field.type](field, options), options)
     })
     .join("\n\n")
 }

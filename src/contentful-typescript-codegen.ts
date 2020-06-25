@@ -13,6 +13,10 @@ const cli = meow(
   Options
     --output,      -o  Where to write to
     --poll,        -p  Continuously refresh types
+    --prefix STR,  -P  Define prefix STR for types, defaults to 'I'
+    --suffix STR,  -S  Define suffix STR for types, defaults to empty string
+    --no-prefix,   -nP Disable prefix completely
+    --no-suffix,   -nS Disable suffix completely
     --interval N,  -i  The interval in seconds at which to poll (defaults to 15)
     --namespace N, -n  Wrap types in namespace N (disabled by default)
     --fields-only      Output a tree that _only_ ensures fields are valid
@@ -38,6 +42,26 @@ const cli = meow(
       poll: {
         type: "boolean",
         alias: "p",
+        required: false,
+      },
+      prefix: {
+        type: "string",
+        alias: "P",
+        required: false,
+      },
+      suffix: {
+        type: "string",
+        alias: "S",
+        required: false,
+      },
+      noPrefix: {
+        type: "boolean",
+        alias: "nP",
+        required: false,
+      },
+      noSuffix: {
+        type: "boolean",
+        alias: "nS",
         required: false,
       },
       interval: {
@@ -69,11 +93,17 @@ async function runCodegen(outputFile: string) {
 
   let output
   if (cli.flags.fieldsOnly) {
-    output = await renderFieldsOnly(contentTypes.items, { namespace: cli.flags.namespace })
+    output = await renderFieldsOnly(contentTypes.items, {
+      namespace: cli.flags.namespace,
+      prefix: cli.flags.noPrefix ? "" : cli.flags.prefix,
+      suffix: cli.flags.noSuffix ? "" : cli.flags.suffix,
+    })
   } else {
     output = await render(contentTypes.items, locales.items, {
       localization: cli.flags.localization,
       namespace: cli.flags.namespace,
+      prefix: cli.flags.noPrefix ? "" : cli.flags.prefix,
+      suffix: cli.flags.noSuffix ? "" : cli.flags.suffix,
     })
   }
 
