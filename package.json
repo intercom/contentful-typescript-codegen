@@ -34,7 +34,7 @@
     "meow": "^5.0.0"
   },
   "peerDependencies": {
-    "prettier": "1.x"
+    "prettier": ">= 1"
   },
   "devDependencies": {
     "@contentful/rich-text-types": "^13.4.0",
