@@ -3,7 +3,7 @@ import renderContentTypeId from "../../contentful/renderContentTypeId"
 import { renderUnionValues } from "../../typescript/renderUnion"
 import { Options } from "../../renderFieldsOnly"
 
-export default function renderLink(field: Field, options: Options = {}): string {
+export default function renderLink(field: Field, options: Options): string {
   if (field.linkType === "Asset") {
     return "any"
   }

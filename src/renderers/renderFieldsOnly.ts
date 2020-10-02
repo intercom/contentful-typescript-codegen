@@ -11,7 +11,7 @@ export interface Options {
   suffix?: string
 }
 
-export default async function renderFieldsOnly(contentTypes: ContentType[], options: Options = {}) {
+export default async function renderFieldsOnly(contentTypes: ContentType[], options: Options) {
   const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
 
   const typingsSource = renderAllContentTypes(sortedContentTypes, options)
@@ -22,6 +22,6 @@ export default async function renderFieldsOnly(contentTypes: ContentType[], opti
   return format(source, { ...prettierConfig, parser: "typescript" })
 }
 
-function renderAllContentTypes(contentTypes: ContentType[], options: Options = {}): string {
+function renderAllContentTypes(contentTypes: ContentType[], options: Options): string {
   return contentTypes.map(contentType => renderContentType(contentType, options)).join("\n\n")
 }

@@ -4,7 +4,7 @@ import renderLink from "./renderLink"
 import renderArrayOf from "../../typescript/renderArrayOf"
 import { Options } from "../../render"
 
-export default function renderArray(field: Field, options: Options = {}): string {
+export default function renderArray(field: Field, options: Options): string {
   if (!field.items) {
     throw new Error(`Cannot render non-array field ${field.id} as an array`)
   }
@@ -24,6 +24,4 @@ export default function renderArray(field: Field, options: Options = {}): string
       return renderArrayOf(renderLink(fieldWithValidations, options))
     }
   }
-
-  return renderArrayOf("unknown")
 }

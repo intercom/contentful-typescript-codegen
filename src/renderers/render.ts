@@ -17,10 +17,12 @@ export interface Options {
   suffix?: string
 }
 
+export const defaultOptions: Options = {}
+
 export default async function render(
   contentTypes: ContentType[],
   locales: Locale[],
-  options: Options = {},
+  options: Options,
 ) {
   const { namespace, localization = false } = options
   const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
@@ -43,7 +45,7 @@ export default async function render(
   return format(source, { ...prettierConfig, parser: "typescript" })
 }
 
-function renderAllContentTypes(contentTypes: ContentType[], options: Options = {}): string {
+function renderAllContentTypes(contentTypes: ContentType[], options: Options): string {
   return contentTypes.map(contentType => renderContentType(contentType, options)).join("\n\n")
 }
 

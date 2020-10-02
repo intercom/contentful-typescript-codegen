@@ -16,7 +16,7 @@ import renderNumber from "../contentful/fields/renderNumber"
 import renderObject from "../contentful/fields/renderObject"
 import renderSymbol from "../contentful/fields/renderSymbol"
 
-export default function renderContentType(contentType: ContentType, options: Options = {}): string {
+export default function renderContentType(contentType: ContentType, options: Options): string {
   const name = renderContentTypeId(contentType.sys.id, options)
   const fields = renderContentTypeFields(contentType.fields, options)
 
@@ -29,7 +29,7 @@ export default function renderContentType(contentType: ContentType, options: Opt
   })
 }
 
-function renderContentTypeFields(fields: Field[], options: Options = {}): string {
+function renderContentTypeFields(fields: Field[], options: Options): string {
   return fields
     .filter(field => !field.omitted)
     .map<string>(field => {
