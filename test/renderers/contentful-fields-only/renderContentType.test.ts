@@ -46,14 +46,11 @@ describe("renderContentType()", () => {
   it("works with miscellaneous field types", () => {
     expect(format(renderContentType(contentType))).toMatchInlineSnapshot(`
       "export interface IMyContentType {
-        fields: {
-          /** Symbol Field™ */
-          symbolField?: string | undefined,
+        /** Symbol Field™ */
+        symbolField?: string | undefined;
 
-          /** Array field */
-          arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
-        };
-        [otherKeys: string]: any;
+        /** Array field */
+        arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
       }"
     `)
   })

@@ -20,10 +20,7 @@ export default function renderContentType(contentType: ContentType): string {
 
   return renderInterface({
     name,
-    fields: `
-      fields: { ${fields} };
-      [otherKeys: string]: any;
-    `,
+    fields: `${fields}`,
   })
 }
 

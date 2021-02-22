@@ -1,5 +1,5 @@
 {
-  "name": "contentful-typescript-codegen",
+  "name": "tt-contentful-typescript-codegen",
   "description": "Generate TypeScript types from your Contentful environment.",
   "license": "MIT",
   "author": "Steven Petryk <steven.petryk@intercom.io>",
@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/intercom/contentful-typescript-codegen"
   },
-  "version": "0.0.0-development",
+  "version": "0.0.3",
   "main": "dist/contentful-typescript-codegen.js",
   "bin": "./dist/contentful-typescript-codegen.js",
   "files": [
@@ -21,7 +21,7 @@
     "format:check": "npm run format -- --check",
     "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "start": "rollup -c rollup.config.ts -w",
-    "test": "jest --coverage",
+    "test": "jest --watch",
     "test:ci": "jest --coverage --max-workers=2 --ci",
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "test:watch": "jest --coverage --watch",
