@@ -29,31 +29,31 @@ const cli = meow(
       output: {
         type: "string",
         alias: "o",
-        required: true,
+        isRequired: true,
       },
       fieldsOnly: {
         type: "boolean",
-        required: false,
+        isRequired: false,
       },
       poll: {
         type: "boolean",
         alias: "p",
-        required: false,
+        isRequired: false,
       },
       interval: {
         type: "string",
         alias: "i",
-        required: false,
+        isRequired: false,
       },
       namespace: {
         type: "string",
         alias: "n",
-        required: false,
+        isRequired: false,
       },
       localization: {
         type: "boolean",
         alias: "l",
-        required: false,
+        isRequired: false,
       },
     },
   },
