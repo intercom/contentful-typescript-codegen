@@ -6343,11 +6343,6 @@ rollup-plugin-node-resolve@^5.2.0:
     resolve "^1.11.1"
     rollup-pluginutils "^2.8.1"
 
-rollup-plugin-shebang@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-shebang/-/rollup-plugin-shebang-0.1.5.tgz#a15c9fed2d6c369f668a66a311b99c2023a6e0e4"
-  integrity sha512-7rtj//+Y0b4ha71PNCIk1GJjjcyZUZtPZe4l4YguUsrZrp5ukc/tbw5N1CTglbLojICrL/oJT9xDnjKQrXX1ZQ==
-
 rollup-plugin-sourcemaps@^0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/rollup-plugin-sourcemaps/-/rollup-plugin-sourcemaps-0.4.2.tgz#62125aa94087aadf7b83ef4dfaf629b473135e87"
