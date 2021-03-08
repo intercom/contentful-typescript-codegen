@@ -30,7 +30,7 @@
   "typings": "dist/types/contentful-typescript-codegen.d.ts",
   "dependencies": {
     "fs-extra": "^8.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "meow": "^5.0.0"
   },
   "peerDependencies": {
@@ -40,7 +40,7 @@
     "@contentful/rich-text-types": "^13.4.0",
     "@types/fs-extra": "^8.0.0",
     "@types/jest": "^24.0.16",
-    "@types/lodash": "^4.14.136",
+    "@types/lodash": "^4.14.168",
     "@types/meow": "^5.0.0",
     "@types/node": "^12.6.8",
     "@types/prettier": "^1.18.0",
