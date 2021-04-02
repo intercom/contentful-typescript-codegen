@@ -15,6 +15,6 @@ describe("renderRichText()", () => {
   }
 
   it("works", () => {
-    expect(renderRichText(simpleRichText).trim()).toMatchInlineSnapshot(`"any"`)
+    expect(renderRichText(simpleRichText).trim()).toMatchInlineSnapshot(`"unknown"`)
   })
 })

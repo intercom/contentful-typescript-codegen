@@ -22,7 +22,7 @@ export default function renderContentType(contentType: ContentType): string {
     name,
     fields: `
       fields: { ${fields} };
-      [otherKeys: string]: any;
+      [otherKeys: string]: unknown;
     `,
   })
 }
