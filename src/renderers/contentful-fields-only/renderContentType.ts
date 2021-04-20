@@ -1,5 +1,11 @@
 import { ContentType, Field, FieldType } from "contentful"
 
+import {
+  getOverridenFields,
+  getOverridenFieldType,
+  OverridenContentTypes,
+  OverridenFields,
+} from "../../lib/fieldOverrides"
 import renderInterface from "../typescript/renderInterface"
 import renderField from "../contentful/renderField"
 import renderContentTypeId from "../contentful/renderContentTypeId"
@@ -14,9 +20,13 @@ import renderNumber from "../contentful/fields/renderNumber"
 import renderObject from "../contentful/fields/renderObject"
 import renderSymbol from "../contentful/fields/renderSymbol"
 
-export default function renderContentType(contentType: ContentType): string {
+export default function renderContentType(
+  contentType: ContentType,
+  fieldOverrides?: OverridenContentTypes,
+): string {
   const name = renderContentTypeId(contentType.sys.id)
-  const fields = renderContentTypeFields(contentType.fields)
+  const overridenFields = getOverridenFields(contentType, fieldOverrides)
+  const fields = renderContentTypeFields(contentType.fields, overridenFields)
 
   return renderInterface({
     name,
@@ -27,10 +37,12 @@ export default function renderContentType(contentType: ContentType): string {
   })
 }
 
-function renderContentTypeFields(fields: Field[]): string {
+function renderContentTypeFields(fields: Field[], overridenFields?: OverridenFields): string {
   return fields
     .filter(field => !field.omitted)
     .map<string>(field => {
+      const overridenType = getOverridenFieldType(field, overridenFields)
+
       const functionMap: Record<FieldType, (field: Field) => string> = {
         Array: renderArray,
         Boolean: renderBoolean,
@@ -45,7 +57,7 @@ function renderContentTypeFields(fields: Field[]): string {
         Text: renderSymbol,
       }
 
-      return renderField(field, functionMap[field.type](field))
+      return renderField(field, overridenType || functionMap[field.type](field))
     })
     .join("\n\n")
 }

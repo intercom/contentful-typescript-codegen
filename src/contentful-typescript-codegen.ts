@@ -2,6 +2,7 @@ import render from "./renderers/render"
 import renderFieldsOnly from "./renderers/renderFieldsOnly"
 import path from "path"
 import { outputFileSync } from "fs-extra"
+import { OverridenContentTypes } from "./lib/fieldOverrides"
 
 const meow = require("meow")
 
@@ -67,13 +68,35 @@ async function runCodegen(outputFile: string) {
   const locales = await environment.getLocales()
   const outputPath = path.resolve(process.cwd(), outputFile)
 
+  let fieldOverrides: OverridenContentTypes | undefined
+  let extraImports: string[] | undefined
+  try {
+    const getFieldOverridesPath = path.resolve(process.cwd(), "./getFieldOverrides.js")
+    const { getImports, getOverridenContentTypes } = require(getFieldOverridesPath)
+    extraImports = getImports() as string[]
+    fieldOverrides = getOverridenContentTypes() as OverridenContentTypes
+  } catch (error) {
+    if (error.code === "MODULE_NOT_FOUND") {
+      console.warn("`getFieldOverrides` file not found, skipping...")
+      fieldOverrides = undefined
+      extraImports = undefined
+    } else {
+      throw error
+    }
+  }
+
   let output
   if (cli.flags.fieldsOnly) {
-    output = await renderFieldsOnly(contentTypes.items, { namespace: cli.flags.namespace })
+    output = await renderFieldsOnly(contentTypes.items, {
+      namespace: cli.flags.namespace,
+      fieldOverrides,
+    })
   } else {
     output = await render(contentTypes.items, locales.items, {
       localization: cli.flags.localization,
       namespace: cli.flags.namespace,
+      fieldOverrides,
+      extraImports,
     })
   }
 
