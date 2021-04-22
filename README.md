@@ -51,7 +51,7 @@ module.exports = function() {
 }
 ```
 
-Optionally, you can add a file called `getFieldOverrides.js` in the root of your project, which should export two functions:
+Optionally, you can add a file called `getContentfulFieldOverrides.js` in the root of your project, which should export two functions:
 1. `getImports` which should return an array of import declarations (as strings) required for your overriden types.
 2. `getOverridenContentTypes` that returns an object of `OverridenContentTypes` type (see example), which will indicate which fields for which content types should be overriden with the type name you provided.
 

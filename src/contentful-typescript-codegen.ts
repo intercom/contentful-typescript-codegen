@@ -71,13 +71,16 @@ async function runCodegen(outputFile: string) {
   let fieldOverrides: OverridenContentTypes | undefined
   let extraImports: string[] | undefined
   try {
-    const getFieldOverridesPath = path.resolve(process.cwd(), "./getFieldOverrides.js")
-    const { getImports, getOverridenContentTypes } = require(getFieldOverridesPath)
+    const getContentfulFieldOverridesPath = path.resolve(
+      process.cwd(),
+      "./getContentfulFieldOverrides.js",
+    )
+    const { getImports, getOverridenContentTypes } = require(getContentfulFieldOverridesPath)
     extraImports = getImports() as string[]
     fieldOverrides = getOverridenContentTypes() as OverridenContentTypes
   } catch (error) {
     if (error.code === "MODULE_NOT_FOUND") {
-      console.warn("`getFieldOverrides` file not found, skipping...")
+      console.warn("`getContentfulFieldOverrides` file not found, skipping...")
       fieldOverrides = undefined
       extraImports = undefined
     } else {
