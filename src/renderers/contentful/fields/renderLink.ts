@@ -8,7 +8,7 @@ export default function renderLink(field: Field): string {
   }
 
   if (field.linkType === "Entry") {
-    const contentTypeValidation = field.validations.find(validation => !!validation.linkContentType)
+    const contentTypeValidation = Array.isArray(field.validations) && field.validations.find(validation => !!validation.linkContentType)
 
     if (contentTypeValidation) {
       return renderUnionValues(contentTypeValidation.linkContentType!.map(renderContentTypeId))
