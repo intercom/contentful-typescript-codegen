@@ -130,7 +130,7 @@ describe("render()", () => {
 
       export interface IMyContentTypeFields {
         /** Array field */
-        arrayField: LocalizedField<(\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>
+        arrayField: DefaultLocalizedField<(\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>
       }
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {
@@ -156,7 +156,8 @@ describe("render()", () => {
 
       export type CONTENTFUL_DEFAULT_LOCALE_CODE = \\"en-US\\"
 
-      export type LocalizedField<T> = Partial<Record<LOCALE_CODE, T>>
+      export type DefaultLocalizedField<T> = Record<CONTENTFUL_DEFAULT_LOCALE_CODE, T>
+      export type LocalizedField<T> = DefaultLocalizedField<T> & Partial<Record<LOCALE_CODE, T>>
 
       // We have to use our own localized version of Asset because of a bug in contentful https://github.com/contentful/contentful.js/issues/208
       export interface Asset {
