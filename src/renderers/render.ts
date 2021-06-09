@@ -2,29 +2,32 @@ import { ContentType, Locale } from "contentful"
 
 import { format, resolveConfig } from "prettier"
 
-import renderContentfulImports from "./contentful/renderContentfulImports"
+import renderImports from "./renderImports"
 import renderContentType from "./contentful/renderContentType"
 import renderUnion from "./typescript/renderUnion"
 import renderAllLocales from "./contentful/renderAllLocales"
 import renderDefaultLocale from "./contentful/renderDefaultLocale"
 import renderNamespace from "./contentful/renderNamespace"
 import renderLocalizedTypes from "./contentful/renderLocalizedTypes"
+import { OverridenContentTypes } from "../lib/fieldOverrides"
 
 interface Options {
   localization?: boolean
   namespace?: string
+  fieldOverrides?: OverridenContentTypes
+  extraImports?: string[]
 }
 
 export default async function render(
   contentTypes: ContentType[],
   locales: Locale[],
-  { namespace, localization = false }: Options = {},
+  { namespace, localization = false, fieldOverrides, extraImports }: Options = {},
 ) {
   const sortedContentTypes = contentTypes.sort((a, b) => a.sys.id.localeCompare(b.sys.id))
   const sortedLocales = locales.sort((a, b) => a.code.localeCompare(b.code))
 
   const typingsSource = [
-    renderAllContentTypes(sortedContentTypes, localization),
+    renderAllContentTypes(sortedContentTypes, localization, fieldOverrides),
     renderAllContentTypeIds(sortedContentTypes),
     renderAllLocales(sortedLocales),
     renderDefaultLocale(sortedLocales),
@@ -32,7 +35,7 @@ export default async function render(
   ].join("\n\n")
 
   const source = [
-    renderContentfulImports(localization),
+    renderImports(localization, extraImports),
     renderNamespace(typingsSource, namespace),
   ].join("\n\n")
 
@@ -40,10 +43,19 @@ export default async function render(
   return format(source, { ...prettierConfig, parser: "typescript" })
 }
 
-function renderAllContentTypes(contentTypes: ContentType[], localization: boolean): string {
-  return contentTypes.map(contentType => renderContentType(contentType, localization)).join("\n\n")
+function renderAllContentTypes(
+  contentTypes: ContentType[],
+  localization: boolean,
+  fieldOverrides?: OverridenContentTypes,
+): string {
+  return contentTypes
+    .map(contentType => renderContentType(contentType, localization, fieldOverrides))
+    .join("\n\n")
 }
 
 function renderAllContentTypeIds(contentTypes: ContentType[]): string {
-  return renderUnion("CONTENT_TYPE", contentTypes.map(contentType => `'${contentType.sys.id}'`))
+  return renderUnion(
+    "CONTENT_TYPE",
+    contentTypes.map(contentType => `'${contentType.sys.id}'`),
+  )
 }

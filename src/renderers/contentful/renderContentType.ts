@@ -1,5 +1,11 @@
 import { ContentType, Field, FieldType, Sys } from "contentful"
 
+import {
+  getOverridenFields,
+  getOverridenFieldType,
+  OverridenContentTypes,
+  OverridenFields,
+} from "../../lib/fieldOverrides"
 import renderInterface from "../typescript/renderInterface"
 import renderField from "./renderField"
 import renderContentTypeId from "./renderContentTypeId"
@@ -13,9 +19,14 @@ import renderObject from "./fields/renderObject"
 import renderRichText from "./fields/renderRichText"
 import renderSymbol from "./fields/renderSymbol"
 
-export default function renderContentType(contentType: ContentType, localization: boolean): string {
+export default function renderContentType(
+  contentType: ContentType,
+  localization: boolean,
+  fieldOverrides?: OverridenContentTypes,
+): string {
   const name = renderContentTypeId(contentType.sys.id)
-  const fields = renderContentTypeFields(contentType.fields, localization)
+  const overridenFields = getOverridenFields(contentType, fieldOverrides)
+  const fields = renderContentTypeFields(contentType.fields, localization, overridenFields)
   const sys = renderSys(contentType.sys)
 
   return `
@@ -34,10 +45,16 @@ function descriptionComment(description: string | undefined) {
   return ""
 }
 
-function renderContentTypeFields(fields: Field[], localization: boolean): string {
+function renderContentTypeFields(
+  fields: Field[],
+  localization: boolean,
+  overridenFields?: OverridenFields,
+): string {
   return fields
     .filter(field => !field.omitted)
     .map<string>(field => {
+      const overridenType = getOverridenFieldType(field, overridenFields)
+
       const functionMap: Record<FieldType, (field: Field) => string> = {
         Array: renderArray,
         Boolean: renderBoolean,
@@ -52,7 +69,7 @@ function renderContentTypeFields(fields: Field[], localization: boolean): string
         Text: renderSymbol,
       }
 
-      return renderField(field, functionMap[field.type](field), localization)
+      return renderField(field, overridenType || functionMap[field.type](field), localization)
     })
     .join("\n\n")
 }
