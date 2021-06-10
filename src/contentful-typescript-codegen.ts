@@ -11,15 +11,16 @@ const cli = meow(
     $ contentful-typescript-codegen --output <file> <options>
 
   Options
-    --output,      -o  Where to write to
-    --poll,        -p  Continuously refresh types
-    --interval N,  -i  The interval in seconds at which to poll (defaults to 15)
-    --namespace N, -n  Wrap types in namespace N (disabled by default)
-    --fields-only      Output a tree that _only_ ensures fields are valid
-                       and present, and does not provide types for Sys,
-                       Assets, or Rich Text. This is useful for ensuring raw
-                       Contentful responses will be compatible with your code.
-    --localization -l  Output fields with localized values
+    --output,          -o  Where to write to
+    --poll,            -p  Continuously refresh types
+    --interval N,      -i  The interval in seconds at which to poll (defaults to 15)
+    --namespace N,     -n  Wrap types in namespace N (disabled by default)
+    --fields-only          Output a tree that _only_ ensures fields are valid
+                           and present, and does not provide types for Sys,
+                           Assets, or Rich Text. This is useful for ensuring raw
+                           Contentful responses will be compatible with your code.
+    --localization     -l  Output fields with localized values
+    --environment-file -e  Specify a path to Contentful environment file (defaults to ./getContentfulEnvironment.js)
 
   Examples
     $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts
@@ -55,12 +56,20 @@ const cli = meow(
         alias: "l",
         isRequired: false,
       },
+      environmentFile: {
+        type: "string",
+        alias: "e",
+        required: false,
+      },
     },
   },
 )
 
 async function runCodegen(outputFile: string) {
-  const getEnvironmentPath = path.resolve(process.cwd(), "./getContentfulEnvironment.js")
+  const getEnvironmentPathDefault = path.resolve(process.cwd(), "./getContentfulEnvironment.js")
+  const getEnvironmentPath = cli.flags.environmentFile
+    ? path.resolve(cli.flags.environmentFile)
+    : getEnvironmentPathDefault
   const getEnvironment = require(getEnvironmentPath)
   const environment = await getEnvironment()
   const contentTypes = await environment.getContentTypes({ limit: 1000 })
