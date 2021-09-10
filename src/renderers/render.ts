@@ -9,6 +9,7 @@ import renderAllLocales from "./contentful/renderAllLocales"
 import renderDefaultLocale from "./contentful/renderDefaultLocale"
 import renderNamespace from "./contentful/renderNamespace"
 import renderLocalizedTypes from "./contentful/renderLocalizedTypes"
+import { escapeSingleQuotes } from "./utils"
 
 interface Options {
   localization?: boolean
@@ -47,6 +48,6 @@ function renderAllContentTypes(contentTypes: ContentType[], localization: boolea
 function renderAllContentTypeIds(contentTypes: ContentType[]): string {
   return renderUnion(
     "CONTENT_TYPE",
-    contentTypes.map(contentType => `'${contentType.sys.id}'`),
+    contentTypes.map(contentType => `'${escapeSingleQuotes(contentType.sys.id)}'`),
   )
 }

@@ -2,6 +2,7 @@ import { escapeSingleQuotes } from "../../src/renderers/utils"
 
 describe("escapeSingleQuotes()", () => {
   const testStrings = [
+    "one's",
     "no quotes",
     "the quote's pie",
     "Tom's pie is better than quote's pie",
@@ -10,11 +11,12 @@ describe("escapeSingleQuotes()", () => {
   ]
 
   const escapedStrings = [
+    "one\\'s",
     "no quotes",
-    "the quote's pie",
-    "Tom's pie is better than quote's pie",
-    "Alot of quotes after '''''",
-    "''''' Alot of quotes before",
+    "the quote\\'s pie",
+    "Tom\\'s pie is better than quote\\'s pie",
+    "Alot of quotes after \\'\\'\\'\\'\\'",
+    "\\'\\'\\'\\'\\' Alot of quotes before",
   ]
 
   it("escapes all the single quotes", () => {
