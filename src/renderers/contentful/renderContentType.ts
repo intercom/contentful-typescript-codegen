@@ -68,7 +68,7 @@ function renderSys(sys: Sys) {
       locale: string;
       contentType: {
         sys: {
-          id: '${escapeSingleQuotes(sys.id)}';
+          id: '${sys.id}';
           linkType: 'ContentType';
           type: 'Link';
         }
