@@ -1,6 +1,5 @@
 import { ContentType, Field, FieldType, Sys } from "contentful"
 
-import { escapeSingleQuotes } from "../utils"
 import renderInterface from "../typescript/renderInterface"
 import renderField from "./renderField"
 import renderContentTypeId from "./renderContentTypeId"
