@@ -6,10 +6,10 @@ Generate typings from your Contentful environment.
 - Locales (and your default locale) become string types.
 - Assets and Rich Text link to Contentful's types.
 
-At Intercom, we use this in our [marketing site] to increase developer confidence and productivity,
+At Intercom, we use this in our [website] to increase developer confidence and productivity,
 ensure that breaking changes to our Content Types don't cause an outage, and because it's neat.
 
-[marketing site]: https://www.intercom.com
+[website]: https://www.intercom.com
 
 ## Usage
 
