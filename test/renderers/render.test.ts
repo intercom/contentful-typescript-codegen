@@ -17,7 +17,7 @@ describe("render()", () => {
             type: "Symbol",
             validations: [
               {
-                in: ["one", "of", "the", "above"],
+                in: ["one's", "of", "the", "above"],
               },
             ],
           },
@@ -60,7 +60,7 @@ describe("render()", () => {
 
       export interface IMyContentTypeFields {
         /** Array field */
-        arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
+        arrayField: (\\"one's\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
       }
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {
@@ -105,7 +105,7 @@ describe("render()", () => {
               type: "Symbol",
               validations: [
                 {
-                  in: ["one", "of", "the", "above"],
+                  in: ["one's", "of", "the", "above"],
                 },
               ],
             },
@@ -130,7 +130,7 @@ describe("render()", () => {
 
       export interface IMyContentTypeFields {
         /** Array field */
-        arrayField: LocalizedField<(\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>
+        arrayField: LocalizedField<(\\"one's\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>
       }
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {
@@ -193,7 +193,7 @@ describe("render()", () => {
       declare namespace Codegen {
         export interface IMyContentTypeFields {
           /** Array field */
-          arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
+          arrayField: (\\"one's\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
         }
 
         export interface IMyContentType extends Entry<IMyContentTypeFields> {
