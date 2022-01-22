@@ -1,6 +1,6 @@
 import * as path from "path"
 import * as fs from "fs"
-import { ContentTypeCollection, LocaleCollection } from "contentful"
+import { ContentfulCollection, ContentTypeCollection, LocaleCollection } from "contentful"
 
 /* istanbul ignore next */
 const interopRequireDefault = (obj: any): { default: any } =>
@@ -42,8 +42,8 @@ function determineEnvironmentPath() {
 }
 
 export interface ContentfulEnvironment {
-  getContentTypes(options: { limit: number }): Promise<ContentTypeCollection>
-  getLocales(): Promise<LocaleCollection>
+  getContentTypes(options: { limit: number }): Promise<ContentfulCollection<unknown>>
+  getLocales(): Promise<ContentfulCollection<unknown>>
 }
 
 export type EnvironmentGetter = () => Promise<ContentfulEnvironment>
@@ -66,8 +66,8 @@ export async function loadEnvironment() {
     const environment = await getEnvironment()
 
     return {
-      contentTypes: await environment.getContentTypes({ limit: 1000 }),
-      locales: await environment.getLocales(),
+      contentTypes: (await environment.getContentTypes({ limit: 1000 })) as ContentTypeCollection,
+      locales: (await environment.getLocales()) as LocaleCollection,
     }
   } finally {
     if (registerer) {
