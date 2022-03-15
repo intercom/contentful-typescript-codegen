@@ -1,8 +1,14 @@
 import { Field } from "contentful"
 import renderContentTypeId from "../renderContentTypeId"
 import { renderUnionValues } from "../../typescript/renderUnion"
+import { ContentfulRenderOptions } from "../options"
 
-export default function renderLink(field: Field): string {
+export default function renderLink(field: Field, { linkType }: ContentfulRenderOptions): string {
+  const baseType = renderLinkBaseType(field)
+  return linkType === undefined ? baseType : `${linkType}<${baseType}>`
+}
+
+function renderLinkBaseType(field: Field): string {
   if (field.linkType === "Asset") {
     return "Asset"
   }

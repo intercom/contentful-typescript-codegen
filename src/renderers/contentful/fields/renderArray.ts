@@ -2,8 +2,9 @@ import { Field } from "contentful"
 import renderSymbol from "./renderSymbol"
 import renderLink from "./renderLink"
 import renderArrayOf from "../../typescript/renderArrayOf"
+import { ContentfulRenderOptions } from "../options"
 
-export default function renderArray(field: Field): string {
+export default function renderArray(field: Field, options: ContentfulRenderOptions): string {
   if (!field.items) {
     throw new Error(`Cannot render non-array field ${field.id} as an array`)
   }
@@ -20,7 +21,7 @@ export default function renderArray(field: Field): string {
     }
 
     case "Link": {
-      return renderArrayOf(renderLink(fieldWithValidations))
+      return renderArrayOf(renderLink(fieldWithValidations, options))
     }
   }
 
