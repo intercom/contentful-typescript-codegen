@@ -20,6 +20,7 @@ const cli = meow(
                        Assets, or Rich Text. This is useful for ensuring raw
                        Contentful responses will be compatible with your code.
     --localization -l  Output fields with localized values
+    --link-type        Output links wrapped in this type, eg LinkType<Entry<...>>
 
   Examples
     $ contentful-typescript-codegen -o src/@types/generated/contentful.d.ts
@@ -33,6 +34,10 @@ const cli = meow(
       },
       fieldsOnly: {
         type: "boolean",
+        isRequired: false,
+      },
+      linkType: {
+        type: "string",
         isRequired: false,
       },
       poll: {
@@ -74,6 +79,7 @@ async function runCodegen(outputFile: string) {
     output = await render(contentTypes.items, locales.items, {
       localization: cli.flags.localization,
       namespace: cli.flags.namespace,
+      linkType: cli.flags.linkType,
     })
   }
 

@@ -12,10 +12,14 @@ import renderNumber from "./fields/renderNumber"
 import renderObject from "./fields/renderObject"
 import renderRichText from "./fields/renderRichText"
 import renderSymbol from "./fields/renderSymbol"
+import { ContentfulRenderOptions } from "./options"
 
-export default function renderContentType(contentType: ContentType, localization: boolean): string {
+export default function renderContentType(
+  contentType: ContentType,
+  options: ContentfulRenderOptions,
+): string {
   const name = renderContentTypeId(contentType.sys.id)
-  const fields = renderContentTypeFields(contentType.fields, localization)
+  const fields = renderContentTypeFields(contentType.fields, options)
   const sys = renderSys(contentType.sys)
 
   return `
@@ -34,11 +38,14 @@ function descriptionComment(description: string | undefined) {
   return ""
 }
 
-function renderContentTypeFields(fields: Field[], localization: boolean): string {
+function renderContentTypeFields(fields: Field[], options: ContentfulRenderOptions): string {
   return fields
     .filter(field => !field.omitted)
     .map<string>(field => {
-      const functionMap: Record<FieldType, (field: Field) => string> = {
+      const functionMap: Record<
+        FieldType,
+        (field: Field, options: ContentfulRenderOptions) => string
+      > = {
         Array: renderArray,
         Boolean: renderBoolean,
         Date: renderSymbol,
@@ -52,7 +59,7 @@ function renderContentTypeFields(fields: Field[], localization: boolean): string
         Text: renderSymbol,
       }
 
-      return renderField(field, functionMap[field.type](field), localization)
+      return renderField(field, functionMap[field.type](field, options), options.localization)
     })
     .join("\n\n")
 }
