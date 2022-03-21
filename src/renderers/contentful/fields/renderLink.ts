@@ -11,7 +11,9 @@ export default function renderLink(field: Field): string {
     const contentTypeValidation = field.validations.find(validation => !!validation.linkContentType)
 
     if (contentTypeValidation) {
-      return renderUnionValues(contentTypeValidation.linkContentType!.map(renderContentTypeId))
+      return renderUnionValues(
+        contentTypeValidation.linkContentType!.map(renderContentTypeId).concat(["undefined"]),
+      )
     } else {
       return "Entry<{ [fieldId: string]: unknown }>"
     }
