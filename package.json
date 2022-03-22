@@ -1,11 +1,11 @@
 {
-  "name": "contentful-typescript-codegen",
+  "name": "@t-botz-dev/contentful-typescript-codegen",
   "description": "Generate TypeScript types from your Contentful environment.",
   "license": "MIT",
-  "author": "Steven Petryk <steven.petryk@intercom.io>",
+  "author": "Tibo Delor <delor.thibault@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/intercom/contentful-typescript-codegen"
+    "url": "https://github.com/t-botz/contentful-typescript-codegen"
   },
   "version": "0.0.0-development",
   "main": "dist/contentful-typescript-codegen.js",
@@ -13,6 +13,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && chmod +x dist/contentful-typescript-codegen.js",
@@ -66,7 +69,7 @@
   },
   "keywords": [],
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=16.0.0"
   },
   "husky": {
     "hooks": {
@@ -77,5 +80,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "release": {
+    "branches": ["main"]
   }
 }
