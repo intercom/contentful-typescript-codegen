@@ -1,3 +1,3 @@
 module.exports = {
-  "{src,test}/**/*.ts": ["prettier --write", "git add"],
+  "{src,test}/**/*.ts": ["prettier --write"],
 }
