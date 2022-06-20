@@ -57,7 +57,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-typescript2": "^0.22.1",
-    "semantic-release": "^17.4.1",
+    "semantic-release": "^19.0.3",
     "ts-jest": "^26.0.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
