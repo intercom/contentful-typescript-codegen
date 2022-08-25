@@ -1,8 +1,15 @@
 import renderContentType from "../../../src/renderers/contentful/renderContentType"
 import { ContentType, Sys } from "contentful"
 import format from "../../support/format"
+import { OverridenContentTypes } from "../../../src/lib/fieldOverrides"
 
 describe("renderContentType()", () => {
+  const fieldOverrides: OverridenContentTypes = {
+    myContentType: {
+      symbolField: "MyCustomType",
+    },
+  }
+
   const contentType: ContentType = {
     sys: {
       id: "myContentType",
@@ -116,6 +123,35 @@ describe("renderContentType()", () => {
 
         /** Array field */
         arrayField: LocalizedField<(\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]>;
+      }
+
+      export interface IMyContentType extends Entry<IMyContentTypeFields> {
+        sys: {
+          id: string,
+          type: string,
+          createdAt: string,
+          updatedAt: string,
+          locale: string,
+          contentType: {
+            sys: {
+              id: \\"myContentType\\",
+              linkType: \\"ContentType\\",
+              type: \\"Link\\"
+            }
+          }
+        };
+      }"
+    `)
+  })
+
+  it("works with field overrides", () => {
+    expect(format(renderContentType(contentType, false, fieldOverrides))).toMatchInlineSnapshot(`
+      "export interface IMyContentTypeFields {
+        /** Symbol Field™ */
+        symbolField?: MyCustomType | undefined;
+
+        /** Array field */
+        arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[];
       }
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {
