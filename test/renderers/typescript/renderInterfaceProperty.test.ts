@@ -9,7 +9,7 @@ describe("renderInterfaceProperty()", () => {
 
   it("works with required properties", () => {
     expect(renderInterfaceProperty("property", "type", true, false).trim()).toMatchInlineSnapshot(
-      `"property: type;"`,
+      `"property?: type;"`,
     )
   })
 

@@ -51,7 +51,7 @@ describe("renderContentType()", () => {
           symbolField?: string | undefined,
 
           /** Array field */
-          arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
+          arrayField?: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
         };
         [otherKeys: string]: any;
       }"
