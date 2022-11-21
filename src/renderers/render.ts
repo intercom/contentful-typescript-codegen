@@ -9,6 +9,7 @@ import renderAllLocales from "./contentful/renderAllLocales"
 import renderDefaultLocale from "./contentful/renderDefaultLocale"
 import renderNamespace from "./contentful/renderNamespace"
 import renderLocalizedTypes from "./contentful/renderLocalizedTypes"
+import renderContentTypeId from "./contentful/renderContentTypeId"
 
 interface Options {
   localization?: boolean
@@ -26,6 +27,7 @@ export default async function render(
   const typingsSource = [
     renderAllContentTypes(sortedContentTypes, localization),
     renderAllContentTypeIds(sortedContentTypes),
+    renderEntryType(sortedContentTypes),
     renderAllLocales(sortedLocales),
     renderDefaultLocale(sortedLocales),
     renderLocalizedTypes(localization),
@@ -48,5 +50,12 @@ function renderAllContentTypeIds(contentTypes: ContentType[]): string {
   return renderUnion(
     "CONTENT_TYPE",
     contentTypes.map(contentType => `'${contentType.sys.id}'`),
+  )
+}
+
+function renderEntryType(contentTypes: ContentType[]) {
+  return renderUnion(
+    "IEntry",
+    contentTypes.map(contentType => renderContentTypeId(contentType.sys.id)),
   )
 }
