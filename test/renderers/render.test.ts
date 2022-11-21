@@ -82,6 +82,8 @@ describe("render()", () => {
 
       export type CONTENT_TYPE = \\"myContentType\\"
 
+      export type IEntry = IMyContentType
+
       export type LOCALE_CODE = \\"en-US\\" | \\"pt-BR\\"
 
       export type CONTENTFUL_DEFAULT_LOCALE_CODE = \\"en-US\\"
@@ -152,6 +154,8 @@ describe("render()", () => {
 
       export type CONTENT_TYPE = \\"myContentType\\"
 
+      export type IEntry = IMyContentType
+
       export type LOCALE_CODE = \\"en-US\\" | \\"pt-BR\\"
 
       export type CONTENTFUL_DEFAULT_LOCALE_CODE = \\"en-US\\"
@@ -214,6 +218,8 @@ describe("render()", () => {
         }
 
         export type CONTENT_TYPE = \\"myContentType\\"
+
+        export type IEntry = IMyContentType
 
         export type LOCALE_CODE = \\"en-US\\" | \\"pt-BR\\"
 
