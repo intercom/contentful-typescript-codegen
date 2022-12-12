@@ -2,6 +2,7 @@ import * as path from "path"
 import * as fs from "fs"
 import { ContentfulCollection, ContentTypeCollection, LocaleCollection } from "contentful"
 
+// todo: switch to contentful-management interfaces here
 export interface ContentfulEnvironment {
   getContentTypes(options: { limit: number }): Promise<ContentfulCollection<unknown>>
   getLocales(): Promise<ContentfulCollection<unknown>>
