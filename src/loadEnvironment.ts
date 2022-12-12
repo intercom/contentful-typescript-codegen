@@ -2,6 +2,29 @@ import * as path from "path"
 import * as fs from "fs"
 import { ContentfulCollection, ContentTypeCollection, LocaleCollection } from "contentful"
 
+export interface ContentfulEnvironment {
+  getContentTypes(options: { limit: number }): Promise<ContentfulCollection<unknown>>
+  getLocales(): Promise<ContentfulCollection<unknown>>
+}
+
+export type EnvironmentGetter = () => Promise<ContentfulEnvironment>
+
+export async function loadEnvironment() {
+  try {
+    const getEnvironment = getEnvironmentGetter()
+    const environment = await getEnvironment()
+
+    return {
+      contentTypes: (await environment.getContentTypes({ limit: 1000 })) as ContentTypeCollection,
+      locales: (await environment.getLocales()) as LocaleCollection,
+    }
+  } finally {
+    if (registerer) {
+      registerer.enabled(false)
+    }
+  }
+}
+
 /* istanbul ignore next */
 const interopRequireDefault = (obj: any): { default: any } =>
   obj && obj.__esModule ? obj : { default: obj }
@@ -41,13 +64,6 @@ function determineEnvironmentPath() {
   return `${pathWithoutExtension}.js`
 }
 
-export interface ContentfulEnvironment {
-  getContentTypes(options: { limit: number }): Promise<ContentfulCollection<unknown>>
-  getLocales(): Promise<ContentfulCollection<unknown>>
-}
-
-export type EnvironmentGetter = () => Promise<ContentfulEnvironment>
-
 function getEnvironmentGetter(): EnvironmentGetter {
   const getEnvironmentPath = determineEnvironmentPath()
 
@@ -58,20 +74,4 @@ function getEnvironmentGetter(): EnvironmentGetter {
   }
 
   return require(getEnvironmentPath)
-}
-
-export async function loadEnvironment() {
-  try {
-    const getEnvironment = getEnvironmentGetter()
-    const environment = await getEnvironment()
-
-    return {
-      contentTypes: (await environment.getContentTypes({ limit: 1000 })) as ContentTypeCollection,
-      locales: (await environment.getLocales()) as LocaleCollection,
-    }
-  } finally {
-    if (registerer) {
-      registerer.enabled(false)
-    }
-  }
 }
