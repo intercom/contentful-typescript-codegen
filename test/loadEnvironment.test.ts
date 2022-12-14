@@ -1,12 +1,12 @@
 import * as fs from "fs"
 import { loadEnvironment } from "../src/loadEnvironment"
 
-const getContentfulEnvironmentFileFactory = jest.fn((_type: string) => {
-  return () => ({
-    getContentTypes: () => [],
-    getLocales: () => [],
-  })
+const contentfulEnvironment = () => ({
+  getContentTypes: () => [],
+  getLocales: () => [],
 })
+
+const getContentfulEnvironmentFileFactory = jest.fn((_type: string) => contentfulEnvironment)
 
 jest.mock(
   require("path").resolve(process.cwd(), "./getContentfulEnvironment.js"),
@@ -29,11 +29,9 @@ describe("loadEnvironment", () => {
   beforeEach(() => {
     jest.resetAllMocks()
     jest.restoreAllMocks()
+    jest.resetModules()
 
-    getContentfulEnvironmentFileFactory.mockReturnValue(() => ({
-      getContentTypes: () => [],
-      getLocales: () => [],
-    }))
+    getContentfulEnvironmentFileFactory.mockReturnValue(contentfulEnvironment)
     tsNodeRegister.mockReturnValue({ enabled: tsNodeRegistererEnabled })
   })
 
@@ -84,6 +82,13 @@ describe("loadEnvironment", () => {
 
         expect(tsNodeRegister).toHaveBeenCalledTimes(1)
       })
+    })
+
+    it("requires the typescript config", async () => {
+      await loadEnvironment()
+
+      expect(getContentfulEnvironmentFileFactory).toHaveBeenCalledWith("ts")
+      expect(getContentfulEnvironmentFileFactory).not.toHaveBeenCalledWith("js")
     })
 
     it("disables the registerer afterwards", async () => {
