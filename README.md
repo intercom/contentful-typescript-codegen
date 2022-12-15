@@ -50,7 +50,7 @@ module.exports = function() {
 }
 ```
 
-And the same example in TypeScrip[package.json](package.json)t:
+And the same example in TypeScript:
 
 ```ts
 import { strict as assert } from "assert"
