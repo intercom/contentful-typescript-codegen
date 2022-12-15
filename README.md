@@ -30,12 +30,11 @@ Then, add the following to your `package.json`:
 
 Feel free to change the output path to whatever you like.
 
-Next, the codegen will expect you to have created a file called `getContentfulEnvironment.js` in the
-root of your project directory, and it should export a promise that resolves with your Contentful
-environment.
+Next, the codegen will expect you to have created a file called either `getContentfulEnvironment.js` or `getContentfulEnvironment.ts`
+in the root of your project directory, which should export a promise that resolves with your Contentful environment.
 
 The reason for this is that you can do whatever you like to set up your Contentful Management
-Client. Here's an example:
+Client. Here's an example of a JavaScript config:
 
 ```js
 const contentfulManagement = require("contentful-management")
@@ -50,6 +49,36 @@ module.exports = function() {
     .then(space => space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT))
 }
 ```
+
+And the same example in TypeScript:
+
+```ts
+import { strict as assert } from "assert"
+import contentfulManagement from "contentful-management"
+import { EnvironmentGetter } from "contentful-typescript-codegen"
+
+const { CONTENTFUL_MANAGEMENT_API_ACCESS_TOKEN, CONTENTFUL_SPACE_ID, CONTENTFUL_ENVIRONMENT } = process.env
+
+assert(CONTENTFUL_MANAGEMENT_API_ACCESS_TOKEN)
+assert(CONTENTFUL_SPACE_ID)
+assert(CONTENTFUL_ENVIRONMENT)
+
+const getContentfulEnvironment: EnvironmentGetter = () => {
+  const contentfulClient = contentfulManagement.createClient({
+    accessToken: CONTENTFUL_MANAGEMENT_API_ACCESS_TOKEN,
+  })
+
+  return contentfulClient
+    .getSpace(CONTENTFUL_SPACE_ID)
+    .then(space => space.getEnvironment(CONTENTFUL_ENVIRONMENT))
+}
+
+module.exports = getContentfulEnvironment
+```
+
+> **Note**
+>
+> `ts-node` must be installed to use a TypeScript config
 
 ### Command line options
 

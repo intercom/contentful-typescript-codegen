@@ -2,8 +2,11 @@ import render from "./renderers/render"
 import renderFieldsOnly from "./renderers/renderFieldsOnly"
 import path from "path"
 import { outputFileSync } from "fs-extra"
+import { loadEnvironment } from "./loadEnvironment"
 
 const meow = require("meow")
+
+export { ContentfulEnvironment, EnvironmentGetter } from "./loadEnvironment"
 
 const cli = meow(
   `
@@ -60,11 +63,7 @@ const cli = meow(
 )
 
 async function runCodegen(outputFile: string) {
-  const getEnvironmentPath = path.resolve(process.cwd(), "./getContentfulEnvironment.js")
-  const getEnvironment = require(getEnvironmentPath)
-  const environment = await getEnvironment()
-  const contentTypes = await environment.getContentTypes({ limit: 1000 })
-  const locales = await environment.getLocales()
+  const { contentTypes, locales } = await loadEnvironment()
   const outputPath = path.resolve(process.cwd(), outputFile)
 
   let output
