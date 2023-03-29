@@ -63,7 +63,7 @@ describe("renderArray()", () => {
     }
 
     expect(renderArray(arrayOfValidatedSymbols)).toMatchInlineSnapshot(
-      `"(IContentType1 | IContentType2 | undefined)[]"`,
+      `"(IContentType1 | IContentType2)[]"`,
     )
   })
 })

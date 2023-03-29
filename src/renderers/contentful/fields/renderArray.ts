@@ -20,7 +20,7 @@ export default function renderArray(field: Field): string {
     }
 
     case "Link": {
-      return renderArrayOf(`${renderLink(fieldWithValidations)} | undefined`)
+      return renderArrayOf(renderLink(fieldWithValidations))
     }
   }
 
