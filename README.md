@@ -54,7 +54,7 @@ And the same example in TypeScript:
 
 ```ts
 import { strict as assert } from "assert"
-import contentfulManagement from "contentful-management"
+import * as contentfulManagement from "contentful-management"
 import { EnvironmentGetter } from "contentful-typescript-codegen"
 
 const { CONTENTFUL_MANAGEMENT_API_ACCESS_TOKEN, CONTENTFUL_SPACE_ID, CONTENTFUL_ENVIRONMENT } = process.env
