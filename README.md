@@ -30,7 +30,7 @@ Then, add the following to your `package.json`:
 
 Feel free to change the output path to whatever you like.
 
-Next, the codegen will expect you to have created a file called either `getContentfulEnvironment.js` or `getContentfulEnvironment.ts`
+Next, the codegen will expect you to have created a file called `getContentfulEnvironment.js`, `getContentfulEnvironment.cjs` or `getContentfulEnvironment.ts`
 in the root of your project directory, which should export a promise that resolves with your Contentful environment.
 
 The reason for this is that you can do whatever you like to set up your Contentful Management

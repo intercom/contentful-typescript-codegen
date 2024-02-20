@@ -60,6 +60,8 @@ function determineEnvironmentPath() {
 
   if (fs.existsSync(`${pathWithoutExtension}.ts`)) {
     return `${pathWithoutExtension}.ts`
+  } else if (fs.existsSync(`${pathWithoutExtension}.cjs`)) {
+    return `${pathWithoutExtension}.cjs`
   }
 
   return `${pathWithoutExtension}.js`
