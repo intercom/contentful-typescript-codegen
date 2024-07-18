@@ -8,6 +8,7 @@
     "url": "https://github.com/intercom/contentful-typescript-codegen"
   },
   "resolutions": {
+    "braces": "3.0.3",
     "ansi-regex": "3.0.1",
     "minimist": "1.2.6"
   },
