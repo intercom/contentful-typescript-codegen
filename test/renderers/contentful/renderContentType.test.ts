@@ -65,12 +65,7 @@ describe("renderContentType()", () => {
             }
 
             export interface IMyContentType extends Entry<IMyContentTypeFields> {
-              sys: {
-                id: string,
-                type: string,
-                createdAt: string,
-                updatedAt: string,
-                locale: string,
+              sys: Sys & {
                 contentType: {
                   sys: {
                     id: \\"myContentType\\",
@@ -90,12 +85,7 @@ describe("renderContentType()", () => {
       /** This is a description */
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {
-        sys: {
-          id: string,
-          type: string,
-          createdAt: string,
-          updatedAt: string,
-          locale: string,
+        sys: Sys & {
           contentType: {
             sys: {
               id: \\"myContentType\\",
@@ -119,12 +109,7 @@ describe("renderContentType()", () => {
       }
 
       export interface IMyContentType extends Entry<IMyContentTypeFields> {
-        sys: {
-          id: string,
-          type: string,
-          createdAt: string,
-          updatedAt: string,
-          locale: string,
+        sys: Sys & {
           contentType: {
             sys: {
               id: \\"myContentType\\",
