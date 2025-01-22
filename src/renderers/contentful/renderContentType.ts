@@ -1,5 +1,7 @@
 import { ContentType, Field, FieldType, Sys } from "contentful"
 
+import { Options } from "../render"
+
 import renderInterface from "../typescript/renderInterface"
 import renderField from "./renderField"
 import renderContentTypeId from "./renderContentTypeId"
@@ -13,9 +15,9 @@ import renderObject from "./fields/renderObject"
 import renderRichText from "./fields/renderRichText"
 import renderSymbol from "./fields/renderSymbol"
 
-export default function renderContentType(contentType: ContentType, localization: boolean): string {
-  const name = renderContentTypeId(contentType.sys.id)
-  const fields = renderContentTypeFields(contentType.fields, localization)
+export default function renderContentType(contentType: ContentType, options: Options): string {
+  const name = renderContentTypeId(contentType.sys.id, options)
+  const fields = renderContentTypeFields(contentType.fields, options)
   const sys = renderSys(contentType.sys)
 
   return `
@@ -34,11 +36,11 @@ function descriptionComment(description: string | undefined) {
   return ""
 }
 
-function renderContentTypeFields(fields: Field[], localization: boolean): string {
+function renderContentTypeFields(fields: Field[], options: Options): string {
   return fields
     .filter(field => !field.omitted)
     .map<string>(field => {
-      const functionMap: Record<FieldType, (field: Field) => string> = {
+      const functionMap: Record<FieldType, (field: Field, options: Options) => string> = {
         Array: renderArray,
         Boolean: renderBoolean,
         Date: renderSymbol,
@@ -52,7 +54,7 @@ function renderContentTypeFields(fields: Field[], localization: boolean): string
         Text: renderSymbol,
       }
 
-      return renderField(field, functionMap[field.type](field), localization)
+      return renderField(field, functionMap[field.type](field, options), options)
     })
     .join("\n\n")
 }
