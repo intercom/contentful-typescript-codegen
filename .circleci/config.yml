@@ -16,6 +16,13 @@ jobs:
             - v1-dependencies-{{arch}}-{{ checksum "package.json" }}
             - v1-dependencies-{{arch}}-
 
+      - run:
+          name: Verify Socket Firewall registry is active
+          command: |
+            REGISTRY=$(npm config get registry)
+            echo "npm registry: $REGISTRY"
+            echo "$REGISTRY" | grep -q socket-firewall-registry || { echo "FAIL: npm not routed through Socket Firewall"; exit 1; }
+
       - run: yarn install
 
       - save_cache:
@@ -40,4 +47,6 @@ workflows:
 
   test:
     jobs:
-      - test
+      - test:
+          context:
+            - socket-firewall
