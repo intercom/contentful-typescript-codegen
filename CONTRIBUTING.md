@@ -24,13 +24,13 @@ This project is a Rollup-based TypeScript NodeJS library. To get the source and 
 ```bash
 git clone git@github.com:intercom/contentful-typescript-codegen.git
 cd contentful-typescript-codegen
-yarn install
+pnpm install
 ```
 
 To ensure everything is set up correctly:
 
 ```bash
-yarn test
+pnpm test
 ```
 
 ### Project structure
