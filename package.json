@@ -7,12 +7,18 @@
     "type": "git",
     "url": "https://github.com/intercom/contentful-typescript-codegen"
   },
-  "resolutions": {
-    "braces": "3.0.3",
-    "ansi-regex": "3.0.1",
-    "minimist": "1.2.6",
-    "micromatch": "4.0.8",
-    "cross-spawn": "7.0.6"
+  "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b",
+  "pnpm": {
+    "overrides": {
+      "braces": "3.0.3",
+      "ansi-regex": "3.0.1",
+      "minimist": "1.2.6",
+      "micromatch": "4.0.8",
+      "cross-spawn": "7.0.6"
+    },
+    "ignoredBuiltDependencies": [
+      "husky"
+    ]
   },
   "version": "0.0.1-development",
   "main": "dist/contentful-typescript-codegen.js",
@@ -25,12 +31,12 @@
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && chmod +x dist/contentful-typescript-codegen.js",
     "commit": "git-cz",
     "format": "prettier --write \"**/*.ts\"",
-    "format:check": "npm run format -- --check",
+    "format:check": "pnpm run format -- --check",
     "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:ci": "jest --coverage --max-workers=2 --ci",
-    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "test:prod": "pnpm run lint && pnpm run test -- --no-cache",
     "test:watch": "jest --coverage --watch",
     "semantic-release": "semantic-release"
   },
@@ -73,6 +79,7 @@
     "semantic-release": "^17.4.7",
     "ts-jest": "^26.0.0",
     "ts-node": "^10.6.0",
+    "tslib": "^2.8.1",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-standard": "^8.0.1",
