@@ -49,6 +49,11 @@ jobs:
       - run:
           name: Run tests
           command: pnpm run test:ci
+          environment:
+            # Node 22 exposes a jest+ts-jest+coverage OOM on the render.test.ts
+            # entry point (all renderers instantiated with instrumentation).
+            # Raise old-space from the default so the worker fits.
+            NODE_OPTIONS: --max-old-space-size=4096
 
 workflows:
   version: 2
