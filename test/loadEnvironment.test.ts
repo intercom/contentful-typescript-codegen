@@ -15,6 +15,12 @@ jest.mock(
 )
 
 jest.mock(
+  require("path").resolve(process.cwd(), "./getContentfulEnvironment.cjs"),
+  () => getContentfulEnvironmentFileFactory("cjs"),
+  { virtual: true },
+)
+
+jest.mock(
   require("path").resolve(process.cwd(), "./getContentfulEnvironment.ts"),
   () => getContentfulEnvironmentFileFactory("ts"),
   { virtual: true },
@@ -37,7 +43,9 @@ describe("loadEnvironment", () => {
 
   describe("when getContentfulEnvironment.ts exists", () => {
     beforeEach(() => {
-      jest.spyOn(fs, "existsSync").mockReturnValue(true)
+      jest.spyOn(fs, "existsSync").mockImplementation(path => {
+        return (path as string).endsWith(".ts")
+      })
     })
 
     describe("when ts-node is not found", () => {
@@ -89,12 +97,29 @@ describe("loadEnvironment", () => {
 
       expect(getContentfulEnvironmentFileFactory).toHaveBeenCalledWith("ts")
       expect(getContentfulEnvironmentFileFactory).not.toHaveBeenCalledWith("js")
+      expect(getContentfulEnvironmentFileFactory).not.toHaveBeenCalledWith("cjs")
     })
 
     it("disables the registerer afterwards", async () => {
       await loadEnvironment()
 
       expect(tsNodeRegistererEnabled).toHaveBeenCalledWith(false)
+    })
+  })
+
+  describe("when getContentfulEnvironment.cjs exists", () => {
+    beforeEach(() => {
+      jest.spyOn(fs, "existsSync").mockImplementation(path => {
+        return (path as string).endsWith(".cjs")
+      })
+    })
+
+    it("requires the javascript config on ESM environments", async () => {
+      await loadEnvironment()
+
+      expect(getContentfulEnvironmentFileFactory).toHaveBeenCalledWith("cjs")
+      expect(getContentfulEnvironmentFileFactory).not.toHaveBeenCalledWith("js")
+      expect(getContentfulEnvironmentFileFactory).not.toHaveBeenCalledWith("ts")
     })
   })
 
@@ -105,5 +130,6 @@ describe("loadEnvironment", () => {
 
     expect(getContentfulEnvironmentFileFactory).toHaveBeenCalledWith("js")
     expect(getContentfulEnvironmentFileFactory).not.toHaveBeenCalledWith("ts")
+    expect(getContentfulEnvironmentFileFactory).not.toHaveBeenCalledWith("cjs")
   })
 })
