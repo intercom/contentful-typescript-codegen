@@ -37,6 +37,7 @@ function renderContentTypeFields(fields: Field[]): string {
         Date: renderSymbol,
         Integer: renderNumber,
         Link: renderLink,
+        ["ResourceLink" as FieldType]: renderLink,
         Location: renderLocation,
         Number: renderNumber,
         Object: renderObject,
