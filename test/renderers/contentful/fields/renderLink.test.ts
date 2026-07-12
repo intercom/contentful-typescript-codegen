@@ -33,7 +33,7 @@ describe("renderLink()", () => {
       linkType: "Entry",
     }
 
-    expect(renderLink(validatedEntryLink)).toMatchInlineSnapshot(`"ILinkToOtherThing"`)
+    expect(renderLink(validatedEntryLink)).toMatchInlineSnapshot(`"ILinkToOtherThing | undefined"`)
   })
 
   it("renders an asset link", () => {
