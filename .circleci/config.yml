@@ -1,4 +1,7 @@
-version: 2
+version: 2.1
+
+orbs:
+  dev-secrets: intercom/dev-secrets@1
 
 defaults: &defaults
   working_directory: ~/repo
@@ -10,11 +13,12 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - dev-secrets/setup
 
       - restore_cache:
           keys:
-            - v2-pnpm-{{arch}}-{{ checksum "pnpm-lock.yaml" }}
-            - v2-pnpm-{{arch}}-
+            - v3-pnpm-{{arch}}-{{ checksum "pnpm-lock.yaml" }}
+            - v3-pnpm-{{arch}}-
 
       - run:
           name: Install pnpm via corepack
@@ -33,7 +37,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - save_cache:
-          key: v2-pnpm-{{arch}}-{{ checksum "pnpm-lock.yaml" }}
+          key: v3-pnpm-{{arch}}-{{ checksum "pnpm-lock.yaml" }}
           paths:
             - node_modules
             - ~/.local/share/pnpm/store
@@ -62,4 +66,4 @@ workflows:
     jobs:
       - test:
           context:
-            - socket-firewall
+            - muster-dev-secrets
