@@ -41,7 +41,7 @@ describe("renderFieldsOnly()", () => {
                 /** Array field */
                 arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
               }
-              [otherKeys: string]: any
+              [otherKeys: string]: unknown
             }
             "
         `)
@@ -55,7 +55,7 @@ describe("renderFieldsOnly()", () => {
             /** Array field */
             arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
           }
-          [otherKeys: string]: any
+          [otherKeys: string]: unknown
         }
       }
 

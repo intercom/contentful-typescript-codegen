@@ -15,6 +15,6 @@ describe("renderObject()", () => {
   }
 
   it("works", () => {
-    expect(renderObject(simpleObject).trim()).toMatchInlineSnapshot(`"Record<string, any>"`)
+    expect(renderObject(simpleObject).trim()).toMatchInlineSnapshot(`"Record<string, unknown>"`)
   })
 })

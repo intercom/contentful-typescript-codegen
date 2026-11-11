@@ -47,7 +47,7 @@ describe("renderLink()", () => {
       omitted: false,
     }
 
-    expect(renderLink(assetLink)).toMatchInlineSnapshot(`"any"`)
+    expect(renderLink(assetLink)).toMatchInlineSnapshot(`"unknown"`)
   })
 
   it("handles mysteries", () => {
