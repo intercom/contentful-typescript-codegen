@@ -1,6 +1,7 @@
 import renderContentType from "../../../src/renderers/contentful-fields-only/renderContentType"
 import { ContentType, Sys } from "contentful"
 import format from "../../support/format"
+import { defaultOptions } from "../../../src/renderers/render"
 
 describe("renderContentType()", () => {
   const contentType: ContentType = {
@@ -44,7 +45,7 @@ describe("renderContentType()", () => {
   }
 
   it("works with miscellaneous field types", () => {
-    expect(format(renderContentType(contentType))).toMatchInlineSnapshot(`
+    expect(format(renderContentType(contentType, defaultOptions))).toMatchInlineSnapshot(`
       "export interface IMyContentType {
         fields: {
           /** Symbol Field™ */

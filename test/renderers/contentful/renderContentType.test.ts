@@ -55,7 +55,7 @@ describe("renderContentType()", () => {
   }
 
   it("works with miscellaneous field types", () => {
-    expect(format(renderContentType(contentType, false))).toMatchInlineSnapshot(`
+    expect(format(renderContentType(contentType, { localization: false }))).toMatchInlineSnapshot(`
             "export interface IMyContentTypeFields {
               /** Symbol Field™ */
               symbolField?: string | undefined;
@@ -84,7 +84,8 @@ describe("renderContentType()", () => {
   })
 
   it("supports descriptions", () => {
-    expect(format(renderContentType(contentTypeWithDescription, false))).toMatchInlineSnapshot(`
+    expect(format(renderContentType(contentTypeWithDescription, { localization: false })))
+      .toMatchInlineSnapshot(`
       "export interface IMyContentTypeFields {}
 
       /** This is a description */
@@ -109,7 +110,7 @@ describe("renderContentType()", () => {
   })
 
   it("works with localized fields", () => {
-    expect(format(renderContentType(contentType, true))).toMatchInlineSnapshot(`
+    expect(format(renderContentType(contentType, { localization: true }))).toMatchInlineSnapshot(`
       "export interface IMyContentTypeFields {
         /** Symbol Field™ */
         symbolField?: LocalizedField<string> | undefined;

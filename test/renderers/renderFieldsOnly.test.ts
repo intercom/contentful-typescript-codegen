@@ -1,7 +1,7 @@
 import renderFieldsOnly from "../../src/renderers/renderFieldsOnly"
 import { ContentType, Sys } from "contentful"
 
-describe("renderFieldsOnly()", () => {
+const test = ({ prefix = "I", suffix = "" }: { prefix?: string; suffix?: string } = {}) => () => {
   const contentTypes: ContentType[] = [
     {
       sys: {
@@ -35,8 +35,8 @@ describe("renderFieldsOnly()", () => {
   ]
 
   it("renders a given content type", async () => {
-    expect(await renderFieldsOnly(contentTypes)).toMatchInlineSnapshot(`
-            "export interface IMyContentType {
+    expect(await renderFieldsOnly(contentTypes, { prefix, suffix })).toMatchInlineSnapshot(`
+            "export interface ${prefix}MyContentType${suffix} {
               fields: {
                 /** Array field */
                 arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
@@ -48,9 +48,10 @@ describe("renderFieldsOnly()", () => {
   })
 
   it("renders a given content type inside a namespace", async () => {
-    expect(await renderFieldsOnly(contentTypes, { namespace: "Codegen" })).toMatchInlineSnapshot(`
+    expect(await renderFieldsOnly(contentTypes, { prefix, suffix, namespace: "Codegen" }))
+      .toMatchInlineSnapshot(`
       "declare namespace Codegen {
-        export interface IMyContentType {
+        export interface ${prefix}MyContentType${suffix} {
           fields: {
             /** Array field */
             arrayField: (\\"one\\" | \\"of\\" | \\"the\\" | \\"above\\")[]
@@ -64,4 +65,14 @@ describe("renderFieldsOnly()", () => {
       "
     `)
   })
-})
+}
+
+describe("renderFieldsOnly() with default 'I' prefix and no suffix", test())
+describe(
+  "renderFieldsOnly() with no prefix and 'Data' suffix",
+  test({ prefix: "", suffix: "Data" }),
+)
+describe(
+  "renderFieldsOnly() with 'C' prefix and 'Data' suffix",
+  test({ prefix: "C", suffix: "Data" }),
+)

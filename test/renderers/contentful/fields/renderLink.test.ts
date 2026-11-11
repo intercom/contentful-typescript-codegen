@@ -1,5 +1,6 @@
 import renderLink from "../../../../src/renderers/contentful/fields/renderLink"
 import { Field } from "contentful"
+import { defaultOptions } from "../../../../src/renderers/render"
 
 describe("renderLink()", () => {
   it("renders a simple entry link", () => {
@@ -15,7 +16,7 @@ describe("renderLink()", () => {
       linkType: "Entry",
     }
 
-    expect(renderLink(simpleEntryLink)).toMatchInlineSnapshot(
+    expect(renderLink(simpleEntryLink, defaultOptions)).toMatchInlineSnapshot(
       `"Entry<{ [fieldId: string]: unknown }>"`,
     )
   })
@@ -33,7 +34,9 @@ describe("renderLink()", () => {
       linkType: "Entry",
     }
 
-    expect(renderLink(validatedEntryLink)).toMatchInlineSnapshot(`"ILinkToOtherThing"`)
+    expect(renderLink(validatedEntryLink, defaultOptions)).toMatchInlineSnapshot(
+      `"ILinkToOtherThing"`,
+    )
   })
 
   it("renders an asset link", () => {
@@ -49,7 +52,7 @@ describe("renderLink()", () => {
       omitted: false,
     }
 
-    expect(renderLink(assetLink)).toMatchInlineSnapshot(`"Asset"`)
+    expect(renderLink(assetLink, defaultOptions)).toMatchInlineSnapshot(`"Asset"`)
   })
 
   it("handles mysteries", () => {
@@ -65,6 +68,6 @@ describe("renderLink()", () => {
       omitted: false,
     }
 
-    expect(renderLink(mysteryLink)).toMatchInlineSnapshot(`"unknown"`)
+    expect(renderLink(mysteryLink, defaultOptions)).toMatchInlineSnapshot(`"unknown"`)
   })
 })
